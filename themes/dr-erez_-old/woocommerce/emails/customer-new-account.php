@@ -10,30 +10,80 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see 	    https://docs.woocommerce.com/document/template-structure/
- * @author 		WooThemes
- * @package 	WooCommerce/Templates/Emails
- * @version     1.6.4
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates\Emails
+ * @version 10.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
+use Automattic\WooCommerce\Utilities\FeaturesUtil;
 
+defined( 'ABSPATH' ) || exit;
+
+$email_improvements_enabled = FeaturesUtil::feature_is_enabled( 'email_improvements' );
+
+/**
+ * Fires to output the email header.
+ *
+ * @hooked WC_Emails::email_header()
+ *
+ * @since 3.7.0
+ */
+do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
+
+<?php echo $email_improvements_enabled ? '<div class="email-introduction">' : ''; ?>
+
+<!-- CUSTOMIZATION: Using the custom, Hebrew header from the old template -->
+<h1> ברוך הבא למרכז ללימודי המשך וטרינריים CPD-Vet </h1>
+
+<p><?php esc_html_e( 'תודה על יצירת חשבונך.', 'woocommerce' ); ?></p>
+<p><?php printf( esc_html__( 'שם המשתמש שלך הוא: %s', 'woocommerce' ), '<b>' . esc_html( $user_login ) . '</b>' ); ?></p>
+
+<?php
+// Logic for New Email Improvements (WooCommerce 10.0.0)
+if ( $email_improvements_enabled ) :
 ?>
+	<div class="hr hr-top"></div>
 
-<?php do_action( 'woocommerce_email_header', $email_heading, $email ); ?>
-<h1>  ברוך הבא למרכז ללימודי המשך וטרינריים CPD-Vet </h1>
+	<?php if ( $password_generated && $set_password_url ) : ?>
+		<?php // If the password has not been set by the user during the sign up process, send them a link to set a new password. ?>
+		<p><a href="<?php echo esc_attr( $set_password_url ); ?>"><?php esc_html_e( 'לחץ כאן כדי לקבוע את הסיסמה שלך.', 'woocommerce' ); ?></a></p>
+	<?php endif; ?>
 
-<p>תודה על יצירת חשבונך</p>
-<p>שם המשתמש שלך הוא: <?=esc_html( $user_login )?></p>
+	<div class="hr hr-bottom"></div>
+	<p><?php esc_html_e( 'באפשרותך לגשת לאזור החשבון שלך כדי לצפות בהזמנות, לשנות את הסיסמה ועוד:', 'woocommerce' ); ?></p>
+	<p><a href="<?php echo esc_attr( wc_get_page_permalink( 'myaccount' ) ); ?>"><?php esc_html_e( 'לאזור האישי שלי', 'woocommerce' ); ?></a></p>
 
-<?php if ( 'yes' === get_option( 'woocommerce_registration_generate_password' ) && $password_generated ) : ?>
+<?php
+// Logic for Classic Email Templates
+else :
+?>
+	<?php if ( $password_generated && $set_password_url ) : ?>
+		<?php // If the password has not been set by the user during the sign up process, send them a link to set a new password. ?>
+		<p><a href="<?php echo esc_attr( $set_password_url ); ?>"><?php esc_html_e( 'לחץ כאן כדי לקבוע את הסיסמה שלך.', 'woocommerce' ); ?></a></p>
+	<?php elseif ( 'yes' === get_option( 'woocommerce_registration_generate_password' ) && $password_generated && ! empty( $user_pass ) ) : ?>
+		<p><?php printf( esc_html__( 'הסיסמה שלך נוצרה באופן אוטומטי: %s', 'woocommerce' ), '<strong>' . esc_html( $user_pass ) . '</strong>' ); ?></p>
+	<?php endif; ?>
 
-	<p><?php printf( __( 'Your password has been automatically generated: %s', 'woocommerce' ), '<strong>' . esc_html( $user_pass ) . '</strong>' ); ?></p>
+	<p><?php printf( esc_html__( 'באפשרותך לגשת לאזור החשבון שלך כדי לצפות בהזמנות ולשנות את הסיסמה שלך כאן: %s.', 'woocommerce' ), make_clickable( esc_url( wc_get_page_permalink( 'myaccount' ) ) ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped ?></p>
 
 <?php endif; ?>
+<?php echo $email_improvements_enabled ? '</div>' : ''; ?>
 
-	<p><?php printf( __( 'You can access your account area to view your orders and change your password here: %s.', 'woocommerce' ), make_clickable( esc_url( wc_get_page_permalink( 'myaccount' ) ) ) ); ?></p>
+<?php
+/**
+ * Show user-defined additional content - this is set in each email's settings.
+ */
+if ( $additional_content ) {
+	echo $email_improvements_enabled ? '<table border="0" cellpadding="0" cellspacing="0" width="100%"><tr><td class="email-additional-content email-additional-content-aligned">' : '';
+	echo wp_kses_post( wpautop( wptexturize( $additional_content ) ) );
+	echo $email_improvements_enabled ? '</td></tr></table>' : '';
+}
 
-<?php do_action( 'woocommerce_email_footer', $email );
+/**
+ * Fires to output the email footer.
+ *
+ * @hooked WC_Emails::email_footer()
+ *
+ * @since 3.7.0
+ */
+do_action( 'woocommerce_email_footer', $email );

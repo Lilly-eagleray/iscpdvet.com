@@ -20,18 +20,17 @@ Images License: GNU General Public License v2 or later
 /*
  * Add your own custom css below this text.
  */
-@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrew.css);
-@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrewcondensed.css);
+@import url('https://fonts.googleapis.com/css2?family=Heebo:wght@300;400;500;700&display=swap');
 body {
-  font-family: 'Open Sans Hebrew', serif !important;
+  font-family: 'Heebo', serif !important;
   color:black;
 }
 body p{
-  font-family: 'Open Sans Hebrew', serif !important;
+  font-family: 'Heebo', serif !important;
   color:black;
 }
 body h1,body h2,body h3,body h4,body h5,body h6{
-  font-family: 'Open Sans Hebrew', serif !important;
+  font-family: 'Heebo', serif !important;
 }
 
 .club{

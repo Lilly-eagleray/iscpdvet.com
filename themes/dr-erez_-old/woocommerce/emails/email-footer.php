@@ -10,38 +10,66 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see 	    https://docs.woocommerce.com/document/template-structure/
- * @author 		WooThemes
- * @package 	WooCommerce/Templates/Emails
- * @version     2.3.0
+ * @see https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates\Emails
+ * @version 10.0.0
  */
 
-if ( ! defined( 'ABSPATH' ) ) {
-	exit; // Exit if accessed directly
-}
+defined( 'ABSPATH' ) || exit;
+
+$email = $email ?? null;
 
 ?>
-															</div>
+																		</div>
+																	</td>
+																</tr>
+															</table>
+															<!-- End Content -->
 														</td>
 													</tr>
 												</table>
-												<!-- End Content -->
+												<!-- End Body -->
 											</td>
 										</tr>
 									</table>
-									<!-- End Body -->
 								</td>
 							</tr>
 							<tr>
 								<td align="center" valign="top">
 									<!-- Footer -->
-									<table border="0" cellpadding="10" cellspacing="0" width="600" id="template_footer">
+									<table border="0" cellpadding="10" cellspacing="0" width="100%" id="template_footer">
 										<tr>
 											<td valign="top">
 												<table border="0" cellpadding="10" cellspacing="0" width="100%">
 													<tr>
+														<!-- CUSTOMIZATION: Added style="font-size:16px" from old template (2.3.0) -->
 														<td colspan="2" valign="middle" id="credit" style="font-size:16px">
-															<?php echo wpautop( wp_kses_post( wptexturize( apply_filters( 'woocommerce_email_footer_text', get_option( 'woocommerce_email_footer_text' ) ) ) ) ); ?>
+															<?php
+															$email_footer_text = get_option( 'woocommerce_email_footer_text' );
+															/**
+															 * This filter is documented in templates/emails/email-styles.php
+															 *
+															 * @since 9.6.0
+															 */
+															if ( apply_filters( 'woocommerce_is_email_preview', false ) ) {
+																$text_transient    = get_transient( 'woocommerce_email_footer_text' );
+																$email_footer_text = false !== $text_transient ? $text_transient : $email_footer_text;
+															}
+															echo wp_kses_post(
+																wpautop(
+																	wptexturize(
+																		/**
+																		 * Provides control over the email footer text used for most order emails.
+																		 *
+																		 * @since 4.0.0
+																		 *
+																		 * @param string $email_footer_text
+																		 */
+																		apply_filters( 'woocommerce_email_footer_text', $email_footer_text, $email )
+																	)
+																)
+															);
+															?>
 														</td>
 													</tr>
 												</table>
@@ -52,9 +80,10 @@ if ( ! defined( 'ABSPATH' ) ) {
 								</td>
 							</tr>
 						</table>
-					</td>
-				</tr>
-			</table>
-		</div>
+					</div>
+				</td>
+				<td><!-- Deliberately empty to support consistent sizing and layout across multiple email clients. --></td>
+			</tr>
+		</table>
 	</body>
 </html>

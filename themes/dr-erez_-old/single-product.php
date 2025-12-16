@@ -10,10 +10,9 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see 	    https://docs.woocommerce.com/document/template-structure/
- * @author 		WooThemes
- * @package 	WooCommerce/Templates
- * @version     1.6.4
+ * @see 	 	https://woocommerce.com/document/template-structure/
+ * @package 	WooCommerce\Templates
+ * @version 	1.6.4
  */
 
 if ( ! defined( 'ABSPATH' ) ) {
@@ -32,22 +31,20 @@ get_header( 'shop' ); ?>
 		do_action( 'woocommerce_before_main_content' );
 	?>
 
-		<?php while ( have_posts() ) : the_post(); ?>
+		<?php while ( have_posts() ) : ?>
+			<?php the_post(); ?>
 
-			<?php 
-			
-			
-			if (get_post_meta( $post->ID, '_add_info_product_course' ) ) {
+			<?php
+			/**
+			 * CUSTOMIZATION: Check for '_add_info_product_course' meta.
+			 * If found, load the custom template 'content-single-product-course',
+			 * otherwise load the standard 'content-single-product'.
+			 */
+			if ( get_post_meta( $post->ID, '_add_info_product_course', true ) ) {
 				 wc_get_template_part( 'content', 'single-product-course' );
-			}
-			else{
+			} else {
 				 wc_get_template_part( 'content', 'single-product' );
 			}
-			
-			
-			
-			
-			
 			?>
 
 		<?php endwhile; // end of the loop. ?>
@@ -70,6 +67,7 @@ get_header( 'shop' ); ?>
 		do_action( 'woocommerce_sidebar' );
 	?>
 
-<?php get_footer( 'shop' );
+<?php
+get_footer( 'shop' );
 
 /* Omit closing PHP tag at the end of PHP files to avoid "headers already sent" issues. */

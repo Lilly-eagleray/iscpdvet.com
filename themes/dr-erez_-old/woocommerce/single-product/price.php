@@ -1,6 +1,6 @@
 <?php
 /**
- * Single Product Price, including microdata for SEO
+ * Single Product Price
  *
  * This template can be overridden by copying it to yourtheme/woocommerce/single-product/price.php.
  *
@@ -10,9 +10,8 @@
  * happen. When this occurs the version of the template file will be bumped and
  * the readme will list any important changes.
  *
- * @see     https://docs.woocommerce.com/document/template-structure/
- * @author  WooThemes
- * @package WooCommerce/Templates
+ * @see 	 https://woocommerce.com/document/template-structure/
+ * @package WooCommerce\Templates
  * @version 3.0.0
  */
 
@@ -23,11 +22,13 @@ if ( ! defined( 'ABSPATH' ) ) {
 global $product;
 
 ?>
-<p class="price"><?php echo $product->get_price_html(); ?></p>
+<p class="<?php echo esc_attr( apply_filters( 'woocommerce_product_price_class', 'price' ) ); ?>"><?php echo $product->get_price_html(); ?></p>
 <?php
-if ( function_exists('icl_object_id') ) {
-		if(ICL_LANGUAGE_CODE == "en"){	
-			//echo get_currency($product->get_price());
+// CUSTOMIZATION: Check for WPML functions and current language code (from old template)
+if ( function_exists( 'icl_object_id' ) ) {
+	if ( defined( 'ICL_LANGUAGE_CODE' ) && ICL_LANGUAGE_CODE === 'en' ) {
+		// The original line was commented out, suggesting it's not currently active but was meant for future use.
+		// echo get_currency($product->get_price());
+	}
 }
-}
- ?>
+?>

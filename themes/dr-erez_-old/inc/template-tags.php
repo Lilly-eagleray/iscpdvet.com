@@ -4,7 +4,7 @@
  *
  * @package GeneratePress
  */
- 
+
 // No direct access, please
 if ( ! defined( 'ABSPATH' ) ) exit;
 
@@ -37,7 +37,7 @@ function generate_content_nav( $nav_id ) {
 	<nav id="<?php echo esc_attr( $nav_id ); ?>" class="<?php echo $nav_class; ?>">
 		<span class="screen-reader-text"><?php _e( 'Post navigation', 'generatepress' ); ?></span>
 
-		<?php if ( is_single() ) : // navigation links for single posts 
+		<?php if ( is_single() ) : // navigation links for single posts
 
 			previous_post_link( '<div class="nav-previous"><span class="prev" title="' . __('Previous','generatepress') . '">%link</span></div>', '%title', $category_specific );
 			next_post_link( '<div class="nav-next"><span class="next" title="' . __('Next','generatepress') . '">%link</span></div>', '%title', $category_specific );
@@ -51,7 +51,7 @@ function generate_content_nav( $nav_id ) {
 			if ( get_previous_posts_link() ) : ?>
 				<div class="nav-next"><span class="next" title="<?php _e('Next','generatepress');?>"><?php previous_posts_link( __( 'Newer posts', 'generatepress' ) ); ?></span></div>
 			<?php endif;
-			
+
 			if ( function_exists( 'the_posts_pagination' ) ) {
 				the_posts_pagination( array(
 					'mid_size' => apply_filters( 'generate_pagination_mid_size', 1 ),
@@ -59,7 +59,7 @@ function generate_content_nav( $nav_id ) {
 					'next_text' => apply_filters( 'generate_next_link_text', __( 'Next &rarr;', 'generatepress' ) ),
 				) );
 			}
-			
+
 			do_action('generate_paging_navigation');
 
 		endif; ?>
@@ -79,7 +79,7 @@ add_filter( 'navigation_markup_template', 'generate_modify_posts_pagination_temp
 function generate_modify_posts_pagination_template( $template, $class ) {
 
     if ( ! empty( $class ) && false !== strpos( $class, 'pagination' ) ) {
-        $template = '<div class="nav-links">%3$s</div>'; 
+        $template = '<div class="nav-links">%3$s</div>';
     }
 
     return $template;
@@ -150,11 +150,11 @@ if ( ! function_exists( 'generate_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  */
-function generate_posted_on() 
-{	
+function generate_posted_on()
+{
 	$date = apply_filters( 'generate_post_date', true );
 	$author = apply_filters( 'generate_post_author', true );
-		
+
 	$time_string = '<time class="entry-date published" datetime="%1$s" itemprop="datePublished">%2$s</time>';
 	if ( get_the_time( 'U' ) !== get_the_modified_time( 'U' ) ) {
 		$time_string .= '<time class="updated" datetime="%3$s" itemprop="dateModified">%4$s</time>';
@@ -166,7 +166,7 @@ function generate_posted_on()
 		esc_attr( get_the_modified_date( 'c' ) ),
 		esc_html( get_the_modified_date() )
 	);
-	
+
 	// If our date is enabled, show it
 	if ( $date ) {
 		echo apply_filters( 'generate_post_date_output', sprintf( '<span class="posted-on">%1$s</span>',
@@ -177,7 +177,7 @@ function generate_posted_on()
 			)
 		), $time_string );
 	}
-	
+
 	// If our author is enabled, show it
 	if ( $author ) {
 		echo apply_filters( 'generate_post_author_output', sprintf( ' <span class="byline">%1$s</span>',
@@ -198,7 +198,7 @@ if ( ! function_exists( 'generate_entry_meta' ) ) :
  *
  * @since 1.2.5
  */
-function generate_entry_meta() 
+function generate_entry_meta()
 {
 	$categories = apply_filters( 'generate_show_categories', true );
 	$tags = apply_filters( 'generate_show_tags', true );
@@ -267,12 +267,12 @@ function generate_featured_page_header_area($class)
 	if ( ! is_singular() ) {
 		return;
 	}
-		
+
 	// Don't run the function unless we have a post thumbnail
 	if ( ! has_post_thumbnail() ) {
 		return;
 	}
-		
+
 	?>
 	<!-- <div class="<?php echo esc_attr( $class ); ?> grid-container grid-parent">
 		<?php //the_post_thumbnail( apply_filters( 'generate_page_header_default_size', 'full' ), array('itemprop' => 'image') ); ?>
@@ -329,7 +329,7 @@ function generate_post_image()
 	if ( ! has_post_thumbnail() ) {
 		return;
 	}
-		
+
 	// If we're not on any single post/page or the 404 template, we must be showing excerpts
 	if ( ! is_singular() && ! is_404() ) {
 		echo apply_filters( 'generate_featured_image_output', sprintf(
@@ -354,16 +354,16 @@ if ( ! function_exists( 'generate_navigation_search' ) ) :
 add_action( 'generate_inside_navigation','generate_navigation_search');
 function generate_navigation_search()
 {
-	$generate_settings = wp_parse_args( 
-		get_option( 'generate_settings', array() ), 
-		generate_get_defaults() 
+	$generate_settings = wp_parse_args(
+		get_option( 'generate_settings', array() ),
+		generate_get_defaults()
 	);
-		
+
 	if ( 'enable' !== $generate_settings['nav_search'] ) {
 		return;
 	}
-	
-	echo apply_filters( 'generate_navigation_search_output', sprintf( 
+
+	echo apply_filters( 'generate_navigation_search_output', sprintf(
 		'<form method="get" class="search-form navigation-search" action="%1$s">
 			<input type="search" class="search-field" value="%2$s" name="s" title="%3$s" />
 		</form>',
@@ -381,23 +381,23 @@ if ( ! function_exists( 'generate_menu_search_icon' ) ) :
  * @since 1.2.9.7
  */
 add_filter( 'wp_nav_menu_items','generate_menu_search_icon', 10, 2 );
-function generate_menu_search_icon( $nav, $args ) 
+function generate_menu_search_icon( $nav, $args )
 {
-	$generate_settings = wp_parse_args( 
-		get_option( 'generate_settings', array() ), 
-		generate_get_defaults() 
+	$generate_settings = wp_parse_args(
+		get_option( 'generate_settings', array() ),
+		generate_get_defaults()
 	);
-	
+
 	// If the search icon isn't enabled, return the regular nav
 	if ( 'enable' !== $generate_settings['nav_search'] ) {
 		return $nav;
 	}
-	
+
 	// If our primary menu is set, add the search icon
 	if ( $args->theme_location == 'primary' ) {
 		return $nav . '<li class="search-item" title="' . esc_attr_x( 'Search', 'submit button', 'generatepress' ) . '"><a href="#"><i class="fa fa-fw fa-search" aria-hidden="true"></i><span class="screen-reader-text">' . _x( 'Search', 'submit button', 'generatepress' ) . '</span></a></li>';
 	}
-	
+
 	// Our primary menu isn't set, return the regular nav
 	// In this case, the search icon is added to the generate_menu_fallback() function in navigation.php
     return $nav;
@@ -411,18 +411,18 @@ if ( ! function_exists( 'generate_mobile_menu_search_icon' ) ) :
  * @since 1.3.12
  */
 add_action( 'generate_inside_navigation','generate_mobile_menu_search_icon' );
-function generate_mobile_menu_search_icon() 
+function generate_mobile_menu_search_icon()
 {
-	$generate_settings = wp_parse_args( 
-		get_option( 'generate_settings', array() ), 
-		generate_get_defaults() 
+	$generate_settings = wp_parse_args(
+		get_option( 'generate_settings', array() ),
+		generate_get_defaults()
 	);
-	
+
 	// If the search icon isn't enabled, return the regular nav
 	if ( 'enable' !== $generate_settings['nav_search'] ) {
 		return;
 	}
-	
+
 	?>
 	<div class="mobile-bar-items">
 		<?php do_action( 'generate_inside_mobile_menu_bar' ); ?>
@@ -518,36 +518,100 @@ function generate_construct_header() {
 			<?php do_action( 'generate_before_header_content' ); ?>
 			<?php generate_header_items(); ?>
 			<?php global $course; ?>
-			<div class="test login_phonenumber <?php echo (is_user_logged_in() ? "":" guest"); ?>">
-            
-			<a href="tel:+97249982800" class="phone_header rtl">(+972)04-9982800</a>
+			<?php do_action( 'generate_after_header_content' ); ?>	
+			<a href="https://remember-shahar.co.il/" class="remember-shahar">
+				<img src="<?= get_stylesheet_directory_uri()?>/inc/shahar.png" alt="">
+				<div>
+					נזכור את <span>שחר כהן מבטח</span>
+				</div>
+
+			</a>
+			
+			<div class="login_phonenumber <?php echo (is_user_logged_in() ? "":" guest"); ?>">
+
+			<a href="tel:+97249982800" class="phone_header rtl">
+				<svg width="27" height="27" viewBox="0 0 27 27" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<path d="M7.07333 11.1933L15.7453 19.8067C16.6747 18.7307 22.5587 12.4227 25.5 21.0387C25.5 21.0387 25.1907 25.5 18.8413 25.5C14.352 25.5 9.70667 20.116 6.45467 17.0387C3.668 14.4227 1.5 11.0387 1.5 7.96133C1.5 1.65467 5.836 1.5 5.836 1.5C15.7453 4.884 7.07467 11.1933 7.07467 11.1933H7.07333Z" stroke="#000" stroke-width="3" stroke-miterlimit="10" stroke-linejoin="round"/>
+				</svg>
+				<span>(+972)04-9982800</span>
+			</a>
 
 			<br>
+			<div class="login-text">
 			<?php global $current_user; wp_get_current_user();
-			if ( is_user_logged_in() ) { 
-			 echo __("שלום") . " , " . $current_user->display_name . " "; 
-			 } 
-			 else{
-			 echo __("שלום") . " , אורח ";	 
+			if ( is_user_logged_in() ) {
+			 echo '<span class="text-label">' . __("שלום") . " , " . $current_user->display_name . " </span>";
+			 echo '<a href="' . wp_logout_url( $_SERVER['REQUEST_URI'] ) . '" class="login-icon">
+				<span class="text-label">לצאת</span>
+				<i class="fas fa-sign-out-alt"></i>
+			  </a>';	
 			 }
-			echo wp_loginout($_SERVER['REQUEST_URI'], false );
-			?>
-			<?php		
-			if ( is_user_logged_in() ) { 
-			$course->setUser($current_user);
-			$is_premited = $course->getCoursePerUser(743);
-			if($is_premited){
-			?>
-			<div class="member_mark">
-			<a href="/cpd-vet-members"><i class="fa fa-star fa-star-green"></i> חבר מועדון </a>
+			 else{
+			 echo '<span class="text-label">' . __("שלום") . " , אורח </span>" ;
+			 echo '<a href="' . wp_login_url( $_SERVER['REQUEST_URI'] ) . '" class="login-icon">
+				<span class="text-label">התחבר</span>
+				<i class="fas fa-user"></i>
+			  </a>';	 
+			 }
+			?>					
 			</div>
 			<?php
-			}
+			if ( is_user_logged_in() ) {
+
+			    if (!isset($course) || !($course instanceof Course)) {
+			        if (class_exists('Course')) {
+			            $course = new Course();
+			        }
+			    }
+
+			    if (isset($course) && ($course instanceof Course)) {
+			        $course_id = 743;
+
+			        $course->setUser($current_user);
+
+			        $registration_date_string = $course->getRegisterationDate($current_user->ID, $course_id);
+
+			        if ( $registration_date_string ) {
+			            $expiration_date_display = '';
+
+			            try {
+			                $start_date = new DateTime($registration_date_string);
+
+			                $expiration_date = $start_date->modify('+1 year');
+
+			                $expiration_date_display = $expiration_date->format('d/m/Y');
+			            } catch (Exception $e) {
+			            }
+
+			            if ( !empty($expiration_date_display) ) {
+			?>
+			            <div class="member_mark">
+			                <a href="/cpd-vet-members">
+			                    <i class="fa fa-star fa-star-green"></i>
+			                    חבר מועדון עד - <?php echo $expiration_date_display; ?> </a>
+			            </div>
+			<?php
+			            }
+			        }
+			    }
 			}
 			?>
-			
+
 			</div>
-			<?php do_action( 'generate_after_header_content' ); ?>
+          <div class="cart-header">
+              <a href="<?php echo wc_get_cart_url(); ?>">
+                <svg width="30" height="30" viewBox="0 0 30 30" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <g clip-path="url(#clip0_2227_173)">
+                <path d="M1.25 1.25H6.25L9.6 17.9875C9.71431 18.563 10.0274 19.0799 10.4844 19.4479C10.9415 19.8158 11.5134 20.0112 12.1 20H24.25C24.8366 20.0112 25.4085 19.8158 25.8656 19.4479C26.3226 19.0799 26.6357 18.563 26.75 17.9875L28.75 7.5H7.5M12.5 26.25C12.5 26.9404 11.9404 27.5 11.25 27.5C10.5596 27.5 10 26.9404 10 26.25C10 25.5596 10.5596 25 11.25 25C11.9404 25 12.5 25.5596 12.5 26.25ZM26.25 26.25C26.25 26.9404 25.6904 27.5 25 27.5C24.3096 27.5 23.75 26.9404 23.75 26.25C23.75 25.5596 24.3096 25 25 25C25.6904 25 26.25 25.5596 26.25 26.25Z" stroke="#2D66F3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                </g>
+                <defs>
+                <clipPath id="clip0_2227_173">
+                <rect width="30" height="30" fill="white"/>
+                </clipPath>
+                </defs>
+                </svg>
+              </a>
+          </div>			
 		</div><!-- .inside-header -->
 	</header><!-- #masthead -->
 	<?php
@@ -562,16 +626,17 @@ if ( ! function_exists( 'generate_header_items' ) ) :
  *
  * @since 1.2.9.7
  */
-function generate_header_items() 
+function generate_header_items()
 {
 	// Header widget
 	generate_construct_header_widget();
-	
+
 	// Site title and tagline
 	generate_construct_site_title();
-	
+
 	// Site logo
 	generate_construct_logo();
+
 }
 endif;
 
@@ -583,41 +648,36 @@ if ( ! function_exists( 'generate_construct_logo' ) ) :
  */
 function generate_construct_logo()
 {
-	$generate_settings = wp_parse_args( 
-		get_option( 'generate_settings', array() ), 
-		generate_get_defaults() 
+	$generate_settings = wp_parse_args(
+		get_option( 'generate_settings', array() ),
+		generate_get_defaults()
 	);
-	
+
 	// Get our logo URL if we're using the custom logo
 	$logo_url = ( function_exists( 'the_custom_logo' ) && get_theme_mod( 'custom_logo' ) ) ? wp_get_attachment_image_src( get_theme_mod( 'custom_logo' ), 'full' ) : false;
-	
+
 	// Get our logo from the custom logo or our GP setting
 	$logo = ( $logo_url ) ? $logo_url[0] : $generate_settings['logo'];
-	
+
 	// If we don't have a logo, bail
 	if ( empty( $logo ) ) {
 		return;
 	}
-	
+
 	do_action( 'generate_before_logo' );
-	
+
 	// Print our HTML
-	echo apply_filters( 'generate_logo_output', sprintf( 
+	echo apply_filters( 'generate_logo_output', sprintf(
 		'<div class="site-logo">
 			<a href="%1$s" title="%2$s" rel="home">
 				<img class="header-image" src="%3$s" alt="%2$s" title="%2$s" />
 			</a>
-			<div>
-				<a href="https://remember-shahar.co.il/" target="_blank" class="in-memory">
-					נזכור את שחר כהן מבטח
-				</a>
-			</div>
 		</div>',
 		esc_url( apply_filters( 'generate_logo_href' , home_url( '/' ) ) ),
 		esc_attr( apply_filters( 'generate_logo_title', get_bloginfo( 'name', 'display' ) ) ),
 		esc_url( apply_filters( 'generate_logo', $logo ) )
 	), $logo );
-	
+
 	do_action( 'generate_after_logo' );
 }
 endif;
@@ -630,21 +690,21 @@ if ( ! function_exists( 'generate_construct_site_title' ) ) :
  */
 function generate_construct_site_title()
 {
-	$generate_settings = wp_parse_args( 
-		get_option( 'generate_settings', array() ), 
-		generate_get_defaults() 
+	$generate_settings = wp_parse_args(
+		get_option( 'generate_settings', array() ),
+		generate_get_defaults()
 	);
-	
+
 	// Get the title and tagline
 	$title = get_bloginfo( 'title' );
 	$tagline = get_bloginfo( 'description' );
-	
+
 	// If the disable title checkbox is checked, or the title field is empty, return true
-	$disable_title = ( '1' == $generate_settings[ 'hide_title' ] || '' == $title ) ? true : false; 
-	
+	$disable_title = ( '1' == $generate_settings[ 'hide_title' ] || '' == $title ) ? true : false;
+
 	// If the disable tagline checkbox is checked, or the tagline field is empty, return true
 	$disable_tagline = ( '1' == $generate_settings[ 'hide_tagline' ] || '' == $tagline ) ? true : false;
-	
+
 	// Build our site title
 	$site_title = apply_filters( 'generate_site_title_output', sprintf(
 		'<%1$s class="main-title" itemprop="headline">
@@ -656,7 +716,7 @@ function generate_construct_site_title()
 		esc_url( apply_filters( 'generate_site_title_href', home_url( '/' ) ) ),
 		get_bloginfo( 'name' )
 	));
-	
+
 	// Build our tagline
 	$site_tagline = apply_filters( 'generate_site_description_output', sprintf(
 		'<p class="site-description">
@@ -664,7 +724,7 @@ function generate_construct_site_title()
 		</p>',
 		html_entity_decode( get_bloginfo( 'description', 'display' ) )
 	));
-	
+
 	// Site title and tagline
 	if ( false == $disable_title || false == $disable_tagline ) {
 		echo apply_filters( 'generate_site_branding_output', sprintf(
@@ -704,15 +764,15 @@ if ( ! function_exists( 'generate_back_to_top' ) ) :
 add_action( 'wp_footer','generate_back_to_top' );
 function generate_back_to_top()
 {
-	$generate_settings = wp_parse_args( 
-		get_option( 'generate_settings', array() ), 
-		generate_get_defaults() 
+	$generate_settings = wp_parse_args(
+		get_option( 'generate_settings', array() ),
+		generate_get_defaults()
 	);
-	
+
 	if ( 'enable' !== $generate_settings[ 'back_to_top' ] ) {
 		return;
 	}
-	
+
 	echo apply_filters( 'generate_back_to_top_output', sprintf(
 		'<a title="%1$s" rel="nofollow" href="#" class="generate-back-to-top" style="opacity:0;visibility:hidden;" data-scroll-speed="%2$s" data-start-scroll="%3$s">
 			<i class="fa %4$s" aria-hidden="true"></i>
@@ -752,7 +812,7 @@ function generate_archive_title()
 			if ( ! empty( $term_description ) ) :
 				printf( '<div class="taxonomy-description">%s</div>', $term_description );
 			endif;
-			
+
 			if ( get_the_author_meta('description') && is_author() ) : // If a user has filled out their decscription show a bio on their entries
 				echo '<div class="author-info">' . get_the_author_meta('description') . '</div>';
 			endif;
@@ -771,7 +831,7 @@ if ( ! function_exists( 'generate_filter_the_archive_title' ) ) :
  */
 add_filter( 'get_the_archive_title','generate_filter_the_archive_title' );
 function generate_filter_the_archive_title( $title ) {
-	
+
 	if ( is_category() ) {
 		$title = single_cat_title( '', false );
 	} elseif ( is_tag() ) {
@@ -791,9 +851,9 @@ function generate_filter_the_archive_title( $title ) {
 		 */
 		rewind_posts();
 	}
-	
+
 	return $title;
-	
+
 }
 endif;
 
@@ -854,9 +914,9 @@ add_action( 'generate_footer','generate_construct_footer_widgets', 5 );
 function generate_construct_footer_widgets() {
 	// Get how many widgets to show
 	$widgets = generate_get_footer_widgets();
-	
-	if ( !empty( $widgets ) && 0 !== $widgets ) : 
-	
+
+	if ( !empty( $widgets ) && 0 !== $widgets ) :
+
 		// Set up the widget width
 		$widget_width = '';
 		if ( $widgets == 1 ) $widget_width = '100';
@@ -872,7 +932,7 @@ function generate_construct_footer_widgets() {
 						<div class="footer-widget-1 grid-parent grid-<?php echo absint( apply_filters( 'generate_footer_widget_1_width', $widget_width ) ); ?> tablet-grid-<?php echo absint( apply_filters( 'generate_footer_widget_1_tablet_width', '50' ) ); ?> mobile-grid-100">
 							<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-1')): ?>
 								<aside class="widget inner-padding widget_text">
-									<h4 class="widget-title"><?php _e('Footer Widget 1','generatepress');?></h4>			
+									<h4 class="widget-title"><?php _e('Footer Widget 1','generatepress');?></h4>
 									<div class="textwidget">
 										<p><?php printf( __( 'Replace this widget content by going to <a href="%1$s"><strong>Appearance / Widgets</strong></a> and dragging widgets into this widget area.','generatepress' ), esc_url( admin_url( 'widgets.php' ) ) ); ?></p>
 										<p><?php printf( __( 'To remove or choose the number of footer widgets, go to <a href="%1$s"><strong>Appearance / Customize / Layout / Footer Widgets</strong></a>.','generatepress' ), esc_url( admin_url( 'customize.php' ) ) ); ?></p>
@@ -881,12 +941,12 @@ function generate_construct_footer_widgets() {
 							<?php endif; ?>
 						</div>
 					<?php endif;
-					
+
 					if ( $widgets >= 2 ) : ?>
 					<div class="footer-widget-2 grid-parent grid-<?php echo absint( apply_filters( 'generate_footer_widget_2_width', $widget_width ) ); ?> tablet-grid-<?php echo absint( apply_filters( 'generate_footer_widget_2_tablet_width', '50' ) ); ?> mobile-grid-100">
 						<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-2')): ?>
 							<aside class="widget inner-padding widget_text">
-								<h4 class="widget-title"><?php _e('Footer Widget 2','generatepress');?></h4>			
+								<h4 class="widget-title"><?php _e('Footer Widget 2','generatepress');?></h4>
 								<div class="textwidget">
 									<p><?php printf( __( 'Replace this widget content by going to <a href="%1$s"><strong>Appearance / Widgets</strong></a> and dragging widgets into this widget area.','generatepress' ), esc_url( admin_url( 'widgets.php' ) ) ); ?></p>
 									<p><?php printf( __( 'To remove or choose the number of footer widgets, go to <a href="%1$s"><strong>Appearance / Customize / Layout / Footer Widgets</strong></a>.','generatepress' ), esc_url( admin_url( 'customize.php' ) ) ); ?></p>
@@ -895,12 +955,12 @@ function generate_construct_footer_widgets() {
 						<?php endif; ?>
 					</div>
 					<?php endif;
-					
+
 					if ( $widgets >= 3 ) : ?>
 					<div class="footer-widget-3 grid-parent grid-<?php echo absint( apply_filters( 'generate_footer_widget_3_width', $widget_width ) ); ?> tablet-grid-<?php echo absint( apply_filters( 'generate_footer_widget_3_tablet_width', '50' ) ); ?> mobile-grid-100">
 						<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-3')): ?>
 							<aside class="widget inner-padding widget_text">
-								<h4 class="widget-title"><?php _e('Footer Widget 3','generatepress');?></h4>			
+								<h4 class="widget-title"><?php _e('Footer Widget 3','generatepress');?></h4>
 								<div class="textwidget">
 									<p><?php printf( __( 'Replace this widget content by going to <a href="%1$s"><strong>Appearance / Widgets</strong></a> and dragging widgets into this widget area.','generatepress' ), esc_url( admin_url( 'widgets.php' ) ) ); ?></p>
 									<p><?php printf( __( 'To remove or choose the number of footer widgets, go to <a href="%1$s"><strong>Appearance / Customize / Layout / Footer Widgets</strong></a>.','generatepress' ), esc_url( admin_url( 'customize.php' ) ) ); ?></p>
@@ -909,12 +969,12 @@ function generate_construct_footer_widgets() {
 						<?php endif; ?>
 					</div>
 					<?php endif;
-					
+
 					if ( $widgets >= 4 ) : ?>
 					<div class="footer-widget-4 grid-parent grid-<?php echo absint( apply_filters( 'generate_footer_widget_4_width', $widget_width ) ); ?> tablet-grid-<?php echo absint( apply_filters( 'generate_footer_widget_4_tablet_width', '50' ) ); ?> mobile-grid-100">
 						<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-4')): ?>
 							<aside class="widget inner-padding widget_text">
-								<h4 class="widget-title"><?php _e('Footer Widget 4','generatepress');?></h4>			
+								<h4 class="widget-title"><?php _e('Footer Widget 4','generatepress');?></h4>
 								<div class="textwidget">
 									<p><?php printf( __( 'Replace this widget content by going to <a href="%1$s"><strong>Appearance / Widgets</strong></a> and dragging widgets into this widget area.','generatepress' ), esc_url( admin_url( 'widgets.php' ) ) ); ?></p>
 									<p><?php printf( __( 'To remove or choose the number of footer widgets, go to <a href="%1$s"><strong>Appearance / Customize / Layout / Footer Widgets</strong></a>.','generatepress' ), esc_url( admin_url( 'customize.php' ) ) ); ?></p>
@@ -923,12 +983,12 @@ function generate_construct_footer_widgets() {
 						<?php endif; ?>
 					</div>
 					<?php endif;
-					
+
 					if ( $widgets >= 5 ) : ?>
 					<div class="footer-widget-5 grid-parent grid-<?php echo absint( apply_filters( 'generate_footer_widget_5_width', $widget_width ) ); ?> tablet-grid-<?php echo absint( apply_filters( 'generate_footer_widget_5_tablet_width', '50' ) ); ?> mobile-grid-100">
 						<?php if (!function_exists('dynamic_sidebar') || !dynamic_sidebar('footer-5')): ?>
 							<aside class="widget inner-padding widget_text">
-								<h4 class="widget-title"><?php _e('Footer Widget 5','generatepress');?></h4>			
+								<h4 class="widget-title"><?php _e('Footer Widget 5','generatepress');?></h4>
 								<div class="textwidget">
 									<p><?php printf( __( 'Replace this widget content by going to <a href="%1$s"><strong>Appearance / Widgets</strong></a> and dragging widgets into this widget area.','generatepress' ), esc_url( admin_url( 'widgets.php' ) ) ); ?></p>
 									<p><?php printf( __( 'To remove or choose the number of footer widgets, go to <a href="%1$s"><strong>Appearance / Customize / Layout / Footer Widgets</strong></a>.','generatepress' ), esc_url( admin_url( 'customize.php' ) ) ); ?></p>
@@ -973,11 +1033,11 @@ if ( ! function_exists( 'generate_top_bar' ) ) :
  */
 add_action( 'generate_before_header','generate_top_bar', 5 );
 function generate_top_bar() {
-	
+
 	if ( ! is_active_sidebar( 'top-bar' ) ) {
 		return;
 	}
-	
+
 	?>
 	<div <?php generate_top_bar_class(); ?>>
 		<div class="inside-top-bar<?php if ( 'contained' == generate_get_setting( 'top_bar_inner_width' ) ) echo ' grid-container grid-parent'; ?>">
@@ -985,7 +1045,7 @@ function generate_top_bar() {
 		</div>
 	</div>
 	<?php
-	
+
 }
 endif;
 
@@ -996,16 +1056,44 @@ if ( ! function_exists( 'generate_footer_bar' ) ) :
  */
 add_action( 'generate_before_copyright','generate_footer_bar', 15 );
 function generate_footer_bar() {
-	
+
 	if ( ! is_active_sidebar( 'footer-bar' ) ) {
 		return;
 	}
-	
+
 	?>
 	<div class="footer-bar">
 		<?php dynamic_sidebar( 'footer-bar' ); ?>
 	</div>
 	<?php
-	
+
 }
 endif;
+
+// קובץ functions.php של תבנית הבת
+
+/**
+ * מזיז את פונקציית הניווט המקורית של GeneratePress לתוך ההדר.
+ * זה שומר על פונקציונליות המובייל.
+ */
+function my_child_theme_move_navigation_to_header() {
+    
+    // שם הפונקציה הסטנדרטי ב-GeneratePress לבניית הניווט הראשי
+    $navigation_function = 'generate_construct_navigation';
+    
+    // ודא שהפונקציה המקורית קיימת בתבנית האב
+    if ( function_exists( $navigation_function ) ) {
+        
+        // 1. הסר את הניווט הראשי מהמיקום הישן שלו (אחרי ההדר)
+        // הניווט המקורי נמצא ב-Hook generate_after_header עם עדיפות 10.
+        // אם זה לא עבד קודם, זה כנראה בגלל שלא הסרנו את זה מספיק מאוחר.
+        remove_action( 'generate_after_header', $navigation_function, 10 );
+        
+        // 2. הוסף את אותה פונקציה בדיוק למיקום החדש (בתוך ההדר)
+        // Hook: generate_after_header_content, שרץ בתוך ה-HTML של ההדר
+        // עדיפות 20 כדי שהניווט יבוא אחרי שאר רכיבי ההדר (לוגו, טלפון/משתמש).
+        add_action( 'generate_after_header_content', $navigation_function, 20 );
+    }
+}
+// נשתמש ב-Hook 'wp_loaded' - זהו Hook שרץ מאוחר יותר ומבטיח שכל הפונקציות של התבנית נטענו.
+add_action( 'wp_loaded', 'my_child_theme_move_navigation_to_header' );

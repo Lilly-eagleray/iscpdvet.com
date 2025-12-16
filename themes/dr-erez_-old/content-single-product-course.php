@@ -59,38 +59,16 @@ if(get_post_meta(get_the_id(),"_course_massage")){
 }
 ?>
 
-
-	<div class="col-md-12">
-		<h2> <?=$product->get_title()?> </h2>
-	</div>
+<div class="row course-top-section">
 	<div class="col-md-8">
+		<h1 class="course-title"> <?=$product->get_title()?> </h1>
 	<?php
 	get_template_part( 'product-image-prod' );
 	
 	
 	get_template_part( 'description-prod' );	
-		
+				
 	?>
-	<div class="row btn_cancel_info">
-	<?php
-	if(get_post_meta(get_the_id(),"_cancel_page")){
-		$cancel_page = get_post_meta(get_the_id(),"_cancel_page")[0];
-	?>
-	<div class="col-xs-6 text-center">
-	<a href="<?=get_permalink($cancel_page)?>" class="button alt btn_white naf_btn"><i class="fa fa-window-close" aria-hidden="true"></i> <span><?php _e("Cancel info","ultimate-course")?></span></a>
-	</div>
-	<?php
-	}
-	if(get_post_meta(get_the_id(),"_info_page")){
-		$info_page = get_post_meta(get_the_id(),"_info_page")[0];
-	?>
-	<div class="col-xs-6 text-center">
-	<a href="<?=get_permalink($info_page)?>" class="button alt btn_white naf_btn"><i class="fa fa-file-text-o" aria-hidden="true"></i> <span><?php _e("Course Program","ultimate-course")?></span></a>
-	</div>
-	<?php
-	}
-	?>
-	</div>
 	</div>
 	
 	<div class="col-md-4">
@@ -101,10 +79,8 @@ if(get_post_meta(get_the_id(),"_course_massage")){
 		
 	?>
 	<div class="teacher_box">
-	<div class="panel panel-default">
-		<div class="panel-heading"><?_e("Course info","ultimate-course")?></div>
-		<div class="panel-body">
-		
+	<div class="info-wrapper">
+		<?php /*<div class="panel-heading"><?_e("Course info","ultimate-course")?></div> */ ?>
 		<div class="teacher_info col-md-12">
 		
 		<?=$add_info_product_course?>
@@ -131,9 +107,6 @@ if(get_post_meta(get_the_id(),"_course_massage")){
 		}
 		?>
 		</div>
-		
-		
-		</div>
 	</div>
 	<?php
 	}
@@ -145,45 +118,62 @@ if(get_post_meta(get_the_id(),"_course_massage")){
 	if(get_post_meta(get_the_id(),"_course_teacher")){
 	$teacher_id = get_post_meta(get_the_id(),"_course_teacher")[0];
 	?>
-	<div class="teacher_box">
-	<div class="panel panel-default">
-		<div class="panel-heading"><?=__("Lecturer biography","ultimate-course")?></div>
-		<div class="panel-body">
+	<div class="lecturer-wrapper">
+		<?php /*<div class="panel-heading"><?=__("Lecturer biography","ultimate-course")?></div>*/ ?>
 		<?php
 		foreach($teacher_id AS $teacher){
 		$post_teacher = get_post($course->returnCurrentLangPost($teacher));
 		?>
-		<div class="row box_lecrurer">
-		<div class="col-md-6">
-		<?php
-		echo get_the_post_thumbnail( $post_teacher->ID, array( 200, 500) ); 
-		?>
-		</div>
-		<div class="teacher_info col-md-6">
-		<h3 class="teacher_name"><b><?=__("Lecturer name","ultimate-course")?>:</b> <?=$post_teacher->post_title?></h3>
+		<div class="box_lecturer">
+		<div class="teacher_info_wrapper">
+		<span class="teacher_name"><?=__("Lecturer name","ultimate-course")?>: <?=$post_teacher->post_title?></span>
 		<div class="teacher_info">
 		<?=$post_teacher->post_excerpt;?>
 		</div>
 		</div>
-		
-		<div class="col-md-12">
-		<a class="btn btn-default btn_full" href="<?=get_permalink($post_teacher->ID)?>"><i class="fa fa-id-card-o" aria-hidden="true"></i> <?=__("More info","ultimate-course")?></a>
+		<div class="lecturer_image">
+		<?php
+		echo get_the_post_thumbnail( $post_teacher->ID, array( 200, 500) ); 
+		?>
+		</div>
+		<div class="lecturer_btn">
+		<a class="btn btn-default btn_full" href="<?=get_permalink($post_teacher->ID)?>"><?=__("More info","ultimate-course")?> >></a>
 		
 		</div>
 		</div>
-		<?php } ?>	
-		
-		
-		</div>
-		
-		
-		</div>
+		<?php } ?>				
 	</div>
 	<?php
 	}
 	?>
 	</div>
 
-</div><!-- #product-<?php the_ID(); ?> -->
+	</div>
+</div>
+<div class="col-md-12 course-content-section">
+	<?php 
+	$course_content = get_field('course_content');
+	if ($course_content){
+		echo $course_content;
+	}?>
+	<div class="row btn_cancel_info">
+	<?php
+	if(get_post_meta(get_the_id(),"_cancel_page")){
+		$cancel_page = get_post_meta(get_the_id(),"_cancel_page")[0];
+	?>
+	<a href="<?=get_permalink($cancel_page)?>" class="button alt btn_white naf_btn"><span><?php _e("Cancel info","ultimate-course")?></span></a>
+	<?php
+	}
+	if(get_post_meta(get_the_id(),"_info_page")){
+		$info_page = get_post_meta(get_the_id(),"_info_page")[0];
+	?>
+	<a href="<?=get_permalink($info_page)?>" class="button alt btn_white naf_btn"><span><?php _e("Course Program","ultimate-course")?></span></a>
+	<?php
+	}
+	?>
+	</div>
+</div>
+	
+	<!-- #product-<?php the_ID(); ?> -->
 
 <?php do_action( 'woocommerce_after_single_product' ); ?>
