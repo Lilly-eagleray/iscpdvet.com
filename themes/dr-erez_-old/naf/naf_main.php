@@ -31,7 +31,7 @@ function woo_naf_settings_func(){
 
         update_option('_member_email_subject', wp_kses_post( $_POST['_member_email_subject'] ) );
         update_option('_member_email_content', wp_kses_post( $_POST['_member_email_content'] ) );
-    }   
+    }
 
     $email_msg_after_online = stripslashes( get_option('_email_msg_after_online'));
     $email_msg_after_online_toggle = get_option('_email_msg_after_online_toggle');
@@ -56,18 +56,18 @@ function woo_naf_settings_func(){
     <?php
         $title = 'הצגת תפריט מינימאלי';
         $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" . '&hide_full_menu=1';
-    
+
         $hide_full_menu = get_option( 'hide_full_menu' );
-    
+
         if( $hide_full_menu ){
             $title = 'הצגת תפריט מלא';
             $url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" . '&hide_full_menu=0';
         }
     ?>
     <a href='<?=$url?>'><?=$title?></a>
-    
+
     <form method="post" action="">
-    
+
         <div class='email_msg'>
             <h2> הודעה במייל לאחר רכישת קורס און ליין </h2>
             <label for="">
@@ -150,7 +150,7 @@ function woo_naf_settings_func(){
     <br>
     <br>
     <hr>
-    
+
     <br>
     <br>
 
@@ -208,7 +208,7 @@ function check_date_of_members(){
 
         $today = date('Y-m-d');
         $new_time = date('Y-m-d', strtotime('+1 year', strtotime( $is_premited[0]->time )));
-        
+
         if( $new_time < $today ){
             wp_mail($user->user_email, $member_email_subject, $member_email_content );
             $wpdb->delete( $table, array( 'user_id' => $user_id,"course_id" => 743 ) );
@@ -253,7 +253,7 @@ function isc_retrieve_password_message( $message, $key, $user_login, $user_data 
 }
 
 
-  
+
 function isc_register_users_data_field( $checkout ) {
 
     global $woocommerce;
@@ -275,13 +275,13 @@ function isc_register_users_data_field( $checkout ) {
         echo '<input onchange="copy_data_from_user(this)" type="checkbox" id="copy_data"> <label for="copy_data">פרטי נרשם זהים למשלם</label><br>';
         ?>
         <script>
-        
+
         let register_users_data = {};
 
         let enable = true;
 
         function add_register_users_data( key, num, type, el ){
-            
+
             if( Object.keys(register_users_data).length === 0 ){
                 jQuery('.more_data').val('');
             }
@@ -295,9 +295,9 @@ function isc_register_users_data_field( $checkout ) {
             }
 
             register_users_data[key][num][type] = jQuery(el).val();
-            
+
             jQuery('#register_users_data').val( JSON.stringify(register_users_data) );
-            
+
             enable = false;
 
             jQuery('.more_data').each( function( el ){
@@ -330,8 +330,8 @@ function isc_register_users_data_field( $checkout ) {
 
 					let fields = jQuery(this).find('.more_data');
 
-					fields.eq(0).val(jQuery('#billing_first_name').val()).trigger("input"); 
-					fields.eq(0).val(jQuery('#billing_first_name').val()).trigger("input"); 
+					fields.eq(0).val(jQuery('#billing_first_name').val()).trigger("input");
+					fields.eq(0).val(jQuery('#billing_first_name').val()).trigger("input");
 					fields.eq(1).val(jQuery('#billing_last_name').val()).trigger("input");
 					fields.eq(2).val(jQuery('#billing_email').val()).trigger("input");
 					fields.eq(3).val(jQuery('#billing_phone').val()).trigger("input");
@@ -370,7 +370,7 @@ function isc_register_users_data_field( $checkout ) {
         <?php
         foreach ( $arr_table as $key => $item ) {
             echo '<div class="course-fields-wrapper" data-key="'.$key.'"><h4><b>קורס: </b>' . $item['item_name'] . '</h4><div class="course-fields">';
-            for ($i=0; $i < $item['quantity']; $i++) { 
+            for ($i=0; $i < $item['quantity']; $i++) {
                 ?>
                     <?php if($item['quantity'] > 1) { ?> <small>נרשם <?= $i + 1?></small><br> <?php } ?>
                     <input class='more_data' type="text" placeholder='*שם פרטי (אנגלית בלבד)' oninput="add_register_users_data(<?=$key?>, <?=$i?>, 'name', this)">
@@ -383,16 +383,58 @@ function isc_register_users_data_field( $checkout ) {
         }
     }
 
-    woocommerce_form_field( 'register_users_data', array(        
-      'type' => 'text',        
-      'class' => array( 'form-row-wide naf_hide' ),        
-      'placeholder' => '',        
-      'required' => false,        
-   ), $checkout->get_value( 'register_users_data' ) );   
+    woocommerce_form_field( 'register_users_data', array(
+      'type' => 'text',
+      'class' => array( 'form-row-wide naf_hide' ),
+      'placeholder' => '',
+      'required' => false,
+   ), $checkout->get_value( 'register_users_data' ) );
 }
 add_action( 'woocommerce_before_order_notes', 'isc_register_users_data_field' );
 
-function isc_save_register_users_data_field( $order_id ) { 
+/**
+ * בדיקת כפילויות אימייל בתוך אותו קורס בזמן הצ'קאאוט
+ */
+add_action( 'woocommerce_after_checkout_validation', 'naf_validate_unique_emails_per_course', 10, 2 );
+
+function naf_validate_unique_emails_per_course( $data, $errors ) {
+    // בדיקה אם השדה קיים ב-POST
+    if ( ! isset( $_POST['register_users_data'] ) || empty( $_POST['register_users_data'] ) ) {
+        return;
+    }
+
+    $register_data = json_decode( stripslashes( $_POST['register_users_data'] ), true );
+
+    if ( json_last_error() !== JSON_ERROR_NONE ) {
+        return; // JSON לא תקין, נתעלם (או שנוסיף שגיאה אחרת)
+    }
+
+    foreach ( $register_data as $course_id => $attendees ) {
+        $course_title = get_the_title( $course_id );
+        $emails_in_course = [];
+
+        foreach ( $attendees as $index => $attendee ) {
+            $email = isset( $attendee['email'] ) ? strtolower( trim( $attendee['email'] ) ) : '';
+
+            if ( empty( $email ) ) {
+                continue; // אם השדה ריק, ווקומרס כבר יתפוס את זה כ-Required אם הגדרת ב-JS
+            }
+
+            // בדיקה אם המייל כבר הופיע עבור הקורס הזה
+            if ( in_array( $email, $emails_in_course ) ) {
+                $errors->add(
+                    'duplicate_email',
+                    sprintf( __( 'שגיאה: כתובת המייל <strong>%s</strong> הוזנה יותר מפעם אחת עבור הקורס <strong>%s</strong>. לכל נרשם חייב להיות מייל ייחודי.', 'woocommerce' ), $email, $course_title )
+                );
+                return; // מספיקה שגיאה אחת כדי לעצור את התהליך
+            }
+
+            $emails_in_course[] = $email;
+        }
+    }
+}
+
+function isc_save_register_users_data_field( $order_id ) {
     if ( isset( $_POST['register_users_data'] ) && $_POST['register_users_data'] != '' ){
         update_post_meta( $order_id, 'register_users_data', $_POST['register_users_data'] );
     }
@@ -429,7 +471,7 @@ function print_regiser_users_data(){
 
         $actual_link = "https://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]" . "&download_users_csv";
         echo "<a href='$actual_link'>יצוא רשומים לאקסל</a>";
-        
+
     }
 }
 
@@ -454,7 +496,7 @@ if( isset( $_GET['download_users_csv']) ){
             ];
         }
     }
-    
+
     download_send_headers("data_export_" . date("Y-m-d") . ".csv");
     echo array2csv($array);
     die();
@@ -482,7 +524,7 @@ function download_send_headers($filename) {
     header("Cache-Control: max-age=0, no-cache, must-revalidate, proxy-revalidate");
     header("Last-Modified: {$now} GMT");
 
-    // force download 
+    // force download
     header('Content-Encoding: UTF-8');
     header('Content-type: text/csv; charset=UTF-8');
     header("Content-Type: application/force-download");
@@ -515,7 +557,7 @@ if( isset($_GET['hide_full_menu']) && $_GET['hide_full_menu'] == 0 ){
 }
 
 function naf_admin_admin_enqueue_scripts() {
-	if( get_option( 'hide_full_menu' ) ) { 
+	if( get_option( 'hide_full_menu' ) ) {
 		wp_enqueue_style('admin-editor', get_stylesheet_directory_uri() . '/naf/admin.css',[],'1.0.0');
     }
 }
@@ -525,7 +567,7 @@ add_action( 'admin_enqueue_scripts', 'naf_admin_admin_enqueue_scripts' );
 
 
 function woocommerce_grouped_product_thumbnail( $product ) {
-    $image_size = array( 300, 300 );  // array( width, height ) image size in pixel 
+    $image_size = array( 300, 300 );  // array( width, height ) image size in pixel
     $attachment_id = get_post_meta( $product->id, '_thumbnail_id', true );
     ?>
     <td class="label">
@@ -535,7 +577,7 @@ function woocommerce_grouped_product_thumbnail( $product ) {
 }
 add_action( 'woocommerce_grouped_product_list_before_price', 'woocommerce_grouped_product_thumbnail' );
 
-//jQuery('.woocommerce-grouped-product-list.group_table').prepend("<tr><th>כמות</th><th>מוצר</th><th>תמונה</th><th>מחיר</th></tr>") 
+//jQuery('.woocommerce-grouped-product-list.group_table').prepend("<tr><th>כמות</th><th>מוצר</th><th>תמונה</th><th>מחיר</th></tr>")
 
 
 function naf_course_add_course_to_user( $order_id ){
@@ -556,13 +598,13 @@ function naf_course_add_course_to_user( $order_id ){
 		if( $data ){
 			error_log("Found register_users_data: " . $data);
 			$data = json_decode( $data );
-			
+
 			// בדיקה אם הפענוח הצליח
 			if (json_last_error() !== JSON_ERROR_NONE) {
 				error_log("JSON Decode Error: " . json_last_error_msg());
 				return;
 			}
-			
+
 			foreach ( $data as $key => $item ) {
 				$course_id = $key;
 				error_log("Processing course_id: " . $course_id);
@@ -572,7 +614,7 @@ function naf_course_add_course_to_user( $order_id ){
 				if( $_course_related ){
 					$course_id = $_course_related;
 				}
-				
+
 				foreach ( $item as $in_key => $value ) {
 					// שימוש בפונקציה trim כדי לנקות רווחים מיותרים
 					$user_email = trim($value->email);
@@ -584,13 +626,13 @@ function naf_course_add_course_to_user( $order_id ){
 						$course->setUser( $user ) ;
 					}else{
                         error_log("Email does NOT exist, creating new user.");
-                        
+
                         // ניקוי שם המשתמש מתווים לא חוקיים
                         $clean_user_login = sanitize_user( strtok($user_email, '@') . '_' . time() );
-                    
+
                         // יצירת סיסמה אקראית
                         $random_password = wp_generate_password();
-                    
+
                         $id = wp_insert_user([
                             'user_email' => $user_email,
                             'user_login' => $clean_user_login, // שימוש בשם משתמש ייחודי
@@ -599,7 +641,7 @@ function naf_course_add_course_to_user( $order_id ){
                             'first_name' => $value->name,
                             'last_name' => $value->family,
                         ]);
-						
+
 						// בדיקה אם יצירת המשתמש נכשלה
 						if (is_wp_error($id)) {
 							error_log("WP_Error during user creation: " . $id->get_error_message());
@@ -612,7 +654,7 @@ function naf_course_add_course_to_user( $order_id ){
 						$user = get_user_by( 'id', $id );
 						$course->setUser( $user ) ;
 					}
-					
+
 					// בדיקה אם $courses הוא אובייקט או מערך תקין
 					$courses = $course->getCoursePerUser( $course_id );
 					if( !is_array($courses) || !is_object($courses) ){
@@ -655,15 +697,15 @@ function naf_woocommerce_email_recipient_processing_order( $this_recipient, $ord
             }
         }
     }
-    return implode(',', $list ); 
-}; 
-add_filter( "woocommerce_email_recipient_customer_processing_order", 'naf_woocommerce_email_recipient_processing_order', 10, 2 ); 
+    return implode(',', $list );
+};
+add_filter( "woocommerce_email_recipient_customer_processing_order", 'naf_woocommerce_email_recipient_processing_order', 10, 2 );
 
 
 add_shortcode('wp_otp_login_form', 'wp_otp_login_form');
 
 function wp_otp_login_form() {
-    
+
 
     ob_start();
     $otp_login = isset($_GET['otp']) ? true : false;
@@ -702,7 +744,7 @@ function wp_otp_login_form() {
 }
 
 add_action( 'init', function(){
-    
+
     if( isset($_POST['send-email'])){
         $user_email = sanitize_email($_POST['user-email']);
 
@@ -711,16 +753,16 @@ add_action( 'init', function(){
             wp_safe_redirect( home_url( "login-opt?err=1" ) );
             exit;
         }
-        
+
         // Generate OTP
         $otp = rand(100000, 999999);
-        
+
         // Send OTP via email
         $subject = 'סיסמאת התחברות חד פעמית';
         $message = 'סיסמאת התחברות חד פעמית<br>';
         $message .= 'סיסמא: ' . $otp;
         wp_mail($user_email, $subject, $message);
-        
+
         // Store OTP in session for verification
         session_start();
         $_SESSION['otp'] = $otp;
@@ -729,18 +771,18 @@ add_action( 'init', function(){
         wp_safe_redirect( home_url( "login-opt?otp=" . $user_email ) );
         exit;
     }
-    
+
     if( isset($_POST['login-otp'])){
 
         session_start();
         $otp = sanitize_text_field($_POST['otp']);
-        
+
         if (isset($_SESSION['otp']) && $_SESSION['otp'] == $otp) {
-            
+
             $user = $_SESSION['otp-user'];
             unset($_SESSION['otp']);
             unset($_SESSION['otp-user']);
-            
+
             if (!$user) {
                 wp_safe_redirect( home_url( "login-opt?otp=1&err=2" ) );
                 exit;
@@ -768,4 +810,3 @@ add_action( 'wp_footer', function(){
         </script>
     <?php
 });
-
