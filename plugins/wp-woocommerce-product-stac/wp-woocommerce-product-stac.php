@@ -458,28 +458,42 @@ function getCoursesUsers($product_id){
 		return $prod_sts;
 }
 
-function getOrdersFromProductAndUser($product_id, $user_id){
-	global $wpdb;
+function getOrdersFromProductAndUser($product_id, $user_id) {
+    global $wpdb;
 
-	$customer_lookup = $wpdb->prefix . "wc_customer_lookup"; 
-	$order_product_lookup = $wpdb->prefix . "wc_order_product_lookup"; 
-		$customer_id = $wpdb->get_results( 
-			"
-			SELECT * 
-			FROM {$customer_lookup}
-			WHERE user_id = {$user_id}
-			"
-		);
-		$orders = $wpdb->get_results( 
-			"
-			SELECT * FROM {$order_product_lookup} AS opl
-			INNER JOIN {$wpdb->posts} AS p ON opl.order_id = p.ID
-			WHERE opl.product_id = {$product_id} 
-			AND opl.customer_id = {$customer_id[0]->customer_id}
-			AND (p.post_status = 'wc-completed' or p.post_status = 'wc-processing');
-			"
-		);
-		return $orders;
+    // הגדרת שמות הטבלאות
+    $customer_lookup = $wpdb->prefix . "wc_customer_lookup"; 
+    $order_product_lookup = $wpdb->prefix . "wc_order_product_lookup"; 
+
+    // שליפת הלקוח בצורה בטוחה (הגנה מפני SQL Injection)
+    $customer_data = $wpdb->get_row( 
+        $wpdb->prepare(
+            "SELECT customer_id FROM {$customer_lookup} WHERE user_id = %d",
+            $user_id
+        )
+    );
+
+    // בדיקה: אם לא נמצא לקוח, נחזיר מערך ריק ולא נמשיך לשאילתה הבאה
+    if (!$customer_data || !isset($customer_data->customer_id)) {
+        return array();
+    }
+
+    $customer_id = $customer_data->customer_id;
+
+    // שליפת ההזמנות בצורה בטוחה
+    $orders = $wpdb->get_results( 
+        $wpdb->prepare(
+            "SELECT * FROM {$order_product_lookup} AS opl
+            INNER JOIN {$wpdb->posts} AS p ON opl.order_id = p.ID
+            WHERE opl.product_id = %d 
+            AND opl.customer_id = %d
+            AND (p.post_status = 'wc-completed' OR p.post_status = 'wc-processing')",
+            $product_id,
+            $customer_id
+        )
+    );
+
+    return $orders;
 }
 
 function product_statistics_enque() {
