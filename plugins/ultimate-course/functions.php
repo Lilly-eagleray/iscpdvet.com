@@ -254,8 +254,9 @@ function personal_area( ) {
 		}
 		}
 		else{
-			echo "<div class='alert alert-info'>" . __("You are not registered to any course yet...","ultimate-course") . "</div>";
+			$output .= "<div class='alert alert-info'>" . __("You are not registered to any course yet...","ultimate-course") . "</div>";
 		}
+
 		$output .= "</div>";
 		}
 
@@ -315,29 +316,28 @@ function personal_area( ) {
 			}
 
 
-            if( is_array( get_field('lessons', $_GET["course_id"]) ) ){
-                $lessons = get_field('lessons', $_GET["course_id"] );
-                $actual_link = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+			$lessons = get_course_lessons( $_GET["course_id"] );
 
-                foreach ($lessons as $key => $lesson) {
+			if( !empty($lessons) ){
 
-                    $active = '';
-                    if( isset( $_GET['lesson']) ){
-                        $l = intval( $_GET['lesson'] ) - 1 ;
-                        if( $l == $key ){
-                            $active = ' active';
-                        }
-                    }
-                    $lesson_title = $lesson['name'];
-                    $link = home_url() . '/אזור-אישי/'.  '?course_id='. $_GET["course_id"] .'&lesson=' . ($key + 1);
-                    $output .=  "<a class='list-group-item$active' href='$link'>$lesson_title</a>";
-                }
-            }
+				foreach ($lessons as $index => $lesson) {
+
+					$active = '';
+					if( isset($_GET['lesson']) && intval($_GET['lesson']) == ($index + 1) ){
+						$active = ' active';
+					}
+
+					$lesson_title = $lesson['name'];
+					$link = home_url() . '/אזור-אישי/?course_id=' . $_GET["course_id"] . '&lesson=' . ($index + 1);
+
+					$output .= "<a class='list-group-item$active' href='$link'>$lesson_title</a>";
+				}
+			}
 
 			$output .=  "</div>";
 		}
 
-		if($_GET["list_id"]){
+		if(isset($_GET["list_id"])){
 
 			$all_parts = $course->isParent($_GET["list_id"]);
 			if(isset($_GET["parent_id"]) && $_GET["parent_id"] != 303){
@@ -378,6 +378,9 @@ add_shortcode( 'personal_area', 'personal_area' );
 
 add_filter('woocommerce_is_purchasable', 'my_woocommerce_is_purchasable', 10, 2);
 function my_woocommerce_is_purchasable($is_purchasable, $product) {
+		if ( ! function_exists('get_field') ) {
+			return $is_purchasable;
+		}	
 		if(is_user_logged_in()){
 			global $wpdb;
 			global $course;
@@ -452,18 +455,22 @@ function validate_active_subscription($true, $product_id, $quantity){
 add_filter( 'single_template', 'ultimate_course_post_locked',1,10 ) ;
 
 
-
 function drerez_css() {
-	global $post;
-	if(get_post_meta($post->ID,"_ltr")){
+    global $post;
+
+    if ( is_null( $post ) || ! is_a( $post, 'WP_Post' ) ) {
+        return;
+    }
+
+    if(get_post_meta($post->ID, "_ltr")){
     ?>
         <style>
             .entry-content{
-				direction:ltr !important;
-			}
+                direction:ltr !important;
+            }
         </style>
     <?php
-	}
+    }
 }
 add_action('wp_head', 'drerez_css');
 

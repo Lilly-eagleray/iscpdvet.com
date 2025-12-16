@@ -11,7 +11,7 @@ error_reporting(E_ALL); */
 include "db.php";
 include "classCourse.php";
 include "woocommerce/wooField.php";
-include "woocommerce/gateway_tranzila.php";
+//include "woocommerce/gateway_tranzila.php";
 include "addPostTypeClass.php";
 include "addPostTypeCourse.php";
 include "addPostTypeTeacher.php";

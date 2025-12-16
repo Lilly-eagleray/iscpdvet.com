@@ -7,6 +7,8 @@
 			
 			$year_list = array();
 			$year_list[0] = __("Select Year","ultimate-course");
+			$info = '';
+			$vetyear = '';
 			for ($x = 1950; $x <= 2101; $x++) {
 				$year_list[$x] = $x;
 			} 
@@ -50,17 +52,21 @@
 			$checkout->get_value( 'vettype' ));
  */
 			$current_user = wp_get_current_user();
-			if ( 0 != $current_user->ID ) {
-			$info = get_user_meta( $current_user->ID, '_vetinfo' )[0];
-			$vetyear = get_user_meta( $current_user->ID, '_vetyear' )[0];
-			}
+			$display = "";
+			if ( $current_user->ID ) {
+				$info    = get_user_meta( $current_user->ID, '_vetinfo', true );
+				$vetyear = get_user_meta( $current_user->ID, '_vetyear', true );
+
+				if ( is_array( $info ) )    $info    = $info[0]    ?? '';
+				if ( is_array( $vetyear ) ) $vetyear = $vetyear[0] ?? '';
+			}		
+			
 			woocommerce_form_field('vetid', array(
 				'type' => 'text',
 				'class' => array(
 					'ultimate_course_vetid form-row-wide'
 				) ,
-				'label' => '',
-				'placeholder' => __('Veterinary license number',"ultimate-course"),
+				'label' => __('Veterinary license number',"ultimate-course"),
 				'required' => false,
 				'default' => $info,
 			) , $checkout->get_value('vetid'));
@@ -193,8 +199,16 @@ $courses = $course->getAllCourses();
 	?>
 	
 	<?php
-	$related_is = get_post_meta($post->ID,"_course_related")[0];
-	echo $related_is;
+		
+	$related_courses_array = get_post_meta($post->ID, "_course_related");
+
+	if (!empty($related_courses_array) && is_array($related_courses_array)) {
+		$related_is = $related_courses_array[0];
+	} else {
+		$related_is = 0; 
+	}
+
+	echo $related_is;		
 	?>
 	<option value="<?=$post_loaded->ID?>"
 	<?php
