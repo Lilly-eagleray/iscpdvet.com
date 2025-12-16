@@ -1,0 +1,93 @@
+#email_modal{
+	z-index:999999999999;
+	margin-top:100px;
+}
+.save_emails{
+	clear:both;
+}
+.email_input{
+	direction:ltr;
+}
+.type_lesson{
+	margin:0px !important;
+}
+.custom-select{
+	float:right;
+}
+.radio_text{
+	margin:2px 7px;
+}
+.box_holder{
+	margin-top:20px;
+}
+.user-table-course th{
+	text-align:center !important;
+}
+.smartcat-upload{
+	margin:10px auto;
+	display:block !important;
+}
+.bootstrap-iso .nav-tabs > li{
+	float:right;
+}
+.order_total .meta{
+	display:none !important;
+}
+.order_number{
+	/*display:none !important;*/
+}
+.massage_checkbox{
+	border:2px solid black;
+	padding:10px;
+	text-align:center;
+	margin:10px auto;
+	max-width:350px;
+	border-radius:5px;
+}
+.bootstrap-iso .nav-tabs{
+	margin-bottom:10px;
+}
+.club_date{
+	line-height:1 !important;
+}
+.box_big{
+	display:none;
+}
+#second_part{
+	display:block;
+}
+.type_lesson_box{
+	display:none;
+}
+#first_part{
+	display:block;
+}
+
+.text_course{
+	float:right;
+	clear:both;
+	margin-top:5px;
+}
+.form_del_course{
+	float:right;
+	margin-left:5px;
+}
+.submit_del{
+	background:none;
+	border:none;
+	color:red !important;
+	padding:5px;
+}
+#sortable{
+	margin:20px auto;
+	max-width:400px;
+}
+.box_lesson{
+	border:1px solid black;
+	border-radius:5px;
+	background:silver;
+	font-weight:bold;
+	text-align:center;
+	padding:10px;
+	cursor:hand;
+}

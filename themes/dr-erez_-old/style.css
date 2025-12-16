@@ -1,0 +1,420 @@
+/*
+Theme Name:   	Dr erez course shop
+Author:       	Stuart Duff
+Template:     	generatepress
+Description:  	This is a blank child theme for generatepress
+Version:      	1.0.1
+License:      	GNU General Public License v2 or later
+License URI:  	http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  	generatepress
+Tags:         	black, white, light, two-columns, left-sidebar, right-sidebar, responsive-layout, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, threaded-comments, accessibility-ready
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+generatepress is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic, Inc.
+Resetting and rebuilding styles have been helped along thanks to the fine work of
+Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html
+along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+FontAwesome License: SIL Open Font License - http://scripts.sil.org/OFL
+Images License: GNU General Public License v2 or later
+*/
+/*
+ * Add your own custom css below this text.
+ */
+@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrew.css);
+@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrewcondensed.css);
+
+body {
+    font-family: 'Open Sans Hebrew', serif !important;
+    color: black;
+}
+
+.woocommerce table.shop_table td {
+    text-align: right !important;
+}
+
+.order_items_user {
+    list-style: none;
+    font-size: 14px;
+    text-align: right;
+}
+
+body p {
+    font-family: 'Open Sans Hebrew', serif !important;
+    color: black;
+}
+
+.cart-header {
+    margin-top: 10px;
+    text-align: center;
+    font-size: 28px;
+}
+
+#icl_lang_sel_widget-2 .wpml-ls-sidebars-lang_switch {
+    margin: 0px auto;
+}
+
+#icl_lang_sel_widget-2 {
+    background: white;
+    margin-bottom: 0px;
+
+}
+
+.club ul {
+    margin: 0px !important;
+}
+
+.fa-check-square {
+    color: green;
+}
+
+.cross-sell-header,
+.cross-sell-image {
+    float: right;
+}
+
+.cross-sell-price {
+    float: left;
+}
+
+.cross-sell-image {
+    margin-left: 5px;
+}
+
+.stock-inner {
+    color: #77a464;
+    display: block;
+    font-weight: 400;
+    margin-bottom: .5em;
+    font-size: .857em;
+}
+
+.inside-top-bar {
+    padding: 0px !important;
+    background: #239CCF;
+}
+
+.cross-sells .list-group-item {
+    width: 100% !important;
+}
+
+.cross-sell-text {
+    float: right;
+    font-size: 14px;
+    padding-right: 40px;
+}
+
+.member_mark {
+    font-size: 12px;
+    text-align: center;
+    padding: 3px;
+    border: black dotted 2px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.fa-star-green {
+    color: green;
+}
+
+.page-header-image {
+    text-align: center;
+}
+
+.page-header-image img {
+    max-width: 200px;
+}
+
+.img-holder {
+    width: 100%;
+    height: 200px;
+    border: 4px black solid;
+    background-repeat: no-repeat !important;
+    background-size: cover !important;
+}
+
+.more_member_info {
+    font-size: 14px;
+}
+
+.main-navigation,
+.main-navigation ul ul {
+    background-color: #239CCF;
+}
+
+.home .entry-header {
+    display: none;
+
+}
+
+.inside-article {
+    padding: 5px !important;
+}
+
+.inner_numbers {
+    padding: 10px 40px !important;
+}
+
+.menu-item-has-children .dropdown-menu-toggle {
+    padding: 0px 2px !important;
+}
+
+.drerez_feedback a {
+    color: white;
+}
+
+.drerez_feedback {
+    position: fixed;
+    bottom: 22%;
+    left: -45px;
+    background: #08c;
+    padding: 5px 10px;
+    -webkit-transform: rotate(90deg);
+    -moz-transform: rotate(90deg);
+    -o-transform: rotate(90deg);
+    -ms-transform: rotate(90deg);
+    transform: rotate(90deg);
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 120px;
+    text-align: center;
+    z-index: 999999;
+}
+
+.drerez_cart_btn {
+    position: fixed;
+    bottom: 0px;
+    left: 150px;
+    background: #08c;
+    padding: 5px 10px;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    width: 80px;
+    text-align: center;
+    z-index: 999999;
+}
+
+.drerez_cart_btn a {
+    color: white;
+}
+
+.login_phonenumber {
+    float: left;
+    font-size: 16px;
+    direction: rtl !important;
+    text-align: right;
+}
+
+.guest_login {
+    font-size: 20px;
+    text-align: center;
+}
+
+.guest_login a {
+    text-decoration: underline;
+}
+
+.header_club_posts {
+    padding: 10px;
+    text-align: center;
+    color: black;
+}
+
+.club_posts_all {
+    margin-top: 30px;
+}
+
+.post-navigation {
+    display: none;
+}
+
+.phone_header {
+    font-size: 26px;
+    color: #239CCF !important;
+    text-decoration: none !important;
+}
+
+.login_phonenumber a {
+    font-weight: bold;
+
+
+}
+
+.woocommerce ul.products li.product a img {
+    max-width: 100%;
+    opacity: 1;
+    border-radius: 18px 18px 18px 18px;
+    box-shadow: 0px 0px 10px 4px rgba(0, 0, 0, 0.5);
+}
+
+#customer_details input {
+    font-size: 14px;
+}
+
+#customer_details .col-1,
+#customer_details .col-2 {
+    float: none !important;
+    margin: 0px auto;
+}
+
+.woocommerce form .form-row label {
+    line-height: 1.2;
+    font-size: 14px;
+}
+
+#coupon_code {
+    width: 250px !important;
+
+}
+
+.add-member-discount {
+    background-color: green !important;
+    color: white !important;
+}
+
+@media only screen and (max-width: 500px) {
+    .woocommerce-breadcrumb {
+        font-size: 14px !important;
+    }
+
+    .cross-sell-header {
+        font-size: 14px;
+        max-width: 200px;
+    }
+
+    .cross-sell-image {
+        display: none;
+    }
+
+    .inside-header {
+        padding: 10px;
+    }
+
+    .checkout-button {
+        font-size: 14px !important;
+        clear: both;
+        width: 100% !important;
+
+    }
+
+    .coupon input {
+        width: 100% !important;
+        margin: 10px 0px !important;
+    }
+
+    #coupon_code {
+        width: 100% !important;
+        font-size: 14px !important;
+
+    }
+}
+
+li.product img.attachment-woocommerce_thumbnail.size-woocommerce_thumbnail {
+    height: 220px !important;
+    object-fit: cover;
+}
+
+li.product {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between !important;
+    min-height: 440px;
+}
+
+.woocommerce ul.products li.product .button {
+    margin-top: 0 !important;
+}
+
+p.stock-inner {
+    padding: 0 !important;
+    margin: 0 !important;
+}
+
+a.button.product_type_simple {
+    text-align: center;
+}
+
+.naf_hide {
+    display: none;
+}
+
+h2.woocommerce-loop-product__title {
+    min-height: 90px;
+}
+
+@media (max-width:765px) {
+    li.product.type-product {
+        width: 90% !important;
+    }
+
+    ul.products.columns-4 {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    li.product {
+        min-height: unset;
+    }
+
+    h2.woocommerce-loop-product__title {
+        min-height: unset;
+    }
+
+    p.stock-inner {
+        padding: 5px !important;
+        margin-top: 2px !important;
+    }
+
+    .naf_btn {
+        display: flex !important;
+        grid-gap: 10px !important;
+        flex-direction: column !important;
+
+    }
+}
+
+
+.wrapper_personal_area {
+    display: flex;
+    flex-direction: column;
+    grid-gap: 10px;
+}
+
+.wrapper_personal_area .course_box {
+    width: 100%;
+    float: unset;
+    margin: 0;
+    min-height: 100px;
+}
+
+.wrapper_personal_area .course_box a {
+    display: grid;
+    grid-template-columns: 25% 75%;
+    align-items: center;
+    grid-gap: 25px;
+}
+
+.wrapper_personal_area .course_box a h2 {
+    margin: 0;
+    text-align: right;
+}
+
+
+.wrapper_personal_area .course_box .img_container {
+    min-height: 100px;
+    width: 100%;
+    max-width: 200px;
+    margin-bottom: 0;
+}
+
+@media (max-width:765px) {
+    .wrapper_personal_area .course_box a {
+        display: grid;
+        grid-template-columns: 30% 70%;
+    }
+}
+
+
+p.description.indicator-hint {
+    display: none;
+}

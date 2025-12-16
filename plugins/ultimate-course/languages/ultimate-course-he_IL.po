@@ -1,0 +1,289 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: ultimate-course 1.0.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-04-27 13:09+0100\n"
+"PO-Revision-Date: 2018-01-11 23:59+0200\n"
+"Last-Translator: Liran Hecht <liranhecht@gmail.com>\n"
+"Language-Team: Liran Hecht <liranhecht@gmail.com>\n"
+"Language: he\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-KeywordsList: __;_e\n"
+"X-Poedit-Basepath: .\n"
+"X-Generator: Poedit 2.0.2\n"
+"X-Poedit-SearchPath-0: ..\n"
+
+msgid "YOUTUBE"
+msgstr "YOUTUBE"
+
+msgid "VIDEO"
+msgstr ""
+
+msgid "PDF"
+msgstr ""
+
+msgid "CUSTOM"
+msgstr ""
+
+msgid "SLIDESHOW"
+msgstr ""
+
+msgid "Please insert a youtube video ID"
+msgstr ""
+
+msgid "Please upload a video file"
+msgstr ""
+
+msgid "Please upload a pdf file"
+msgstr ""
+
+msgid "Please upload a pptx file"
+msgstr ""
+
+msgid "Add custom html code"
+msgstr ""
+
+msgid "Lessons"
+msgstr ""
+
+msgid "Lesson"
+msgstr ""
+
+msgid "Main lesson"
+msgstr ""
+
+msgid "All lessons"
+msgstr ""
+
+msgid "Watch lesson"
+msgstr ""
+
+msgid "Add new lesson"
+msgstr ""
+
+msgid "Update lesson"
+msgstr ""
+
+msgid "Search a lesson"
+msgstr ""
+
+msgid "No Lessons found"
+msgstr ""
+
+msgid "No Lessons in can"
+msgstr ""
+
+msgid "Related to course"
+msgstr ""
+
+msgid "Select the related course"
+msgstr ""
+
+msgid "Select a course"
+msgstr ""
+
+msgid "Lesson Type"
+msgstr ""
+
+msgid "Lecturer"
+msgstr "מרצה"
+
+msgid "Course level"
+msgstr "רמת הקורס"
+
+msgid "Course lessons"
+msgstr "השיעורים בקורס"
+
+msgid "Lesson summery"
+msgstr "תקציר השיעור"
+
+msgid "Q&A"
+msgstr ""
+
+msgid "Files"
+msgstr ""
+
+msgid "But you can join the course very easily"
+msgstr "אבל אתה יכול לרכוש אותו ממש בקלות"
+
+msgid "You have no permission to access"
+msgstr "אין לך אישור לגשת לדף זה"
+
+msgid "You are allready registered"
+msgstr "אתה כבר רשום לקורס זה"
+
+msgid "CPD-Vet Members and members of the Veterinarians Association are entitled to a discount of 10%"
+msgstr "חברי מועדון CPD-Vet Members וחברי ארגון הרופאים הווטרינרים לחיות הבית זכאים להנחה של - 10%"
+
+msgid "Lecturer name"
+msgstr "שם המרצה"
+
+msgid "Lecturers"
+msgstr ""
+
+msgid "Main lecturer"
+msgstr ""
+
+msgid "All lecturers"
+msgstr ""
+
+msgid "Watch a lecturer"
+msgstr ""
+
+msgid "Add new lecturer"
+msgstr ""
+
+msgid "Edit lecturer"
+msgstr ""
+
+msgid "Update lecturer"
+msgstr ""
+
+msgid "Search lecturer"
+msgstr ""
+
+msgid "No lecturers found"
+msgstr ""
+
+msgid "No lecturers in can"
+msgstr ""
+
+msgid "Courses"
+msgstr ""
+
+msgid "Course"
+msgstr ""
+
+msgid "Main course"
+msgstr ""
+
+msgid "All Courses"
+msgstr ""
+
+msgid "Watch a course"
+msgstr ""
+
+msgid "Add new course"
+msgstr ""
+
+msgid "Add new"
+msgstr ""
+
+msgid "Edit course"
+msgstr ""
+
+msgid "Update course"
+msgstr ""
+
+msgid "Search course"
+msgstr ""
+
+msgid "No Courses found"
+msgstr ""
+
+msgid "No Courses in can"
+msgstr ""
+
+msgid "Your Address"
+msgstr "הכתובת שלך"
+
+msgid "Street, City"
+msgstr "כתובת, עיר (נא להקפיד להוסיף מיקוד ומספר דירה)"
+
+msgid "Anything important?"
+msgstr "משהו נוסף?"
+
+msgid "Account Password, please remember this password since it's going to be your account password."
+msgstr "ססמא של החשבון, אנא שמור ססמא (קבע סיסמא בת 12 ספרות לפחות)."
+
+msgid "Year of obtaining the Veterinary degree"
+msgstr "שנת קבלת התואר הווטרינרי"
+
+msgid "Veterinary license number (student - register the name of the institution where you study)"
+msgstr "מספר רשיון וטרינרי (סטודנט? רשום את שם המוסד בו הנך לומד)"
+
+msgid "License Number"
+msgstr "מספר רשיון"
+
+msgid "Veterinary license number"
+msgstr "אנא הכנס מספר רשיון"
+
+msgid "Name of the institution"
+msgstr "שם המוסד"
+
+msgid "Name of the clinic"
+msgstr "שם הקליניקה"
+
+msgid "Veterinar"
+msgstr "וטרינר/ית"
+
+msgid "Student"
+msgstr "סטודנט/ית"
+
+msgid "Technician"
+msgstr "טכנאי/ת וטרינרי"
+
+msgid "Product course settings"
+msgstr ""
+
+msgid "Registration and payment"
+msgstr "להרשמה ותשלום"
+
+msgid "Select a lecturer"
+msgstr ""
+
+msgid "Additional info"
+msgstr ""
+
+msgid "Choose alert type"
+msgstr ""
+
+msgid "Alert (red)"
+msgstr ""
+
+msgid "Sucsses (green)"
+msgstr ""
+
+msgid "Course info"
+msgstr "מידע על הקורס"
+
+msgid "Register to course"
+msgstr "הרשם לקורס"
+
+msgid "More info"
+msgstr "מידע נוסף"
+
+msgid "Cancel info"
+msgstr "מדיניות ביטולים"
+
+msgid "Course Program"
+msgstr "תוכנית הקורס"
+
+msgid "First name in english"
+msgstr "שם פרטי באנגלית"
+
+msgid "Last name in english"
+msgstr "שם משפחה באנגלית"
+
+msgid "Account username (This will be the username of your account)"
+msgstr "שם משתמש של חשבונך (זה יהיה שם המשתמש של חשבונך)"
+
+msgid "Back to course list"
+msgstr "חזרה לרשימת הקורסים"
+
+msgid "Back to CPD-Vet member page"
+msgstr "חזרה לעמוד CPD-Vet member"
+
+msgid "Back to"
+msgstr "חזור ל"
+
+msgid "Back"
+msgstr "חזור"
+
+msgid "Choose payment method"
+msgstr "בחר אמצעי תשלום"
+
+msgid "Please fill in missing info."
+msgstr "אנא מלא נתונים חסרים"

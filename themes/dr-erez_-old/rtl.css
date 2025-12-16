@@ -1,0 +1,63 @@
+/*
+Theme Name:   	Dr erez course shop
+Author:       	Stuart Duff
+Template:     	generatepress
+Description:  	This is a blank child theme for generatepress
+Version:      	1.0.0
+License:      	GNU General Public License v2 or later
+License URI:  	http://www.gnu.org/licenses/gpl-2.0.html
+Text Domain:  	generatepress
+Tags:         	black, white, light, two-columns, left-sidebar, right-sidebar, responsive-layout, custom-background, custom-colors, custom-header, custom-menu, featured-images, full-width-template, threaded-comments, accessibility-ready
+This theme, like WordPress, is licensed under the GPL.
+Use it to make something cool, have fun, and share what you've learned with others.
+generatepress is based on Underscores http://underscores.me/, (C) 2012-2014 Automattic, Inc.
+Resetting and rebuilding styles have been helped along thanks to the fine work of
+Eric Meyer http://meyerweb.com/eric/tools/css/reset/index.html
+along with Nicolas Gallagher and Jonathan Neal http://necolas.github.com/normalize.css/
+FontAwesome License: SIL Open Font License - http://scripts.sil.org/OFL
+Images License: GNU General Public License v2 or later
+*/
+/*
+ * Add your own custom css below this text.
+ */
+@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrew.css);
+@import url(https://fonts.googleapis.com/earlyaccess/opensanshebrewcondensed.css);
+body {
+  font-family: 'Open Sans Hebrew', serif !important;
+  color:black;
+}
+body p{
+  font-family: 'Open Sans Hebrew', serif !important;
+  color:black;
+}
+body h1,body h2,body h3,body h4,body h5,body h6{
+  font-family: 'Open Sans Hebrew', serif !important;
+}
+
+.club{
+	border-bottom:none;
+	
+}
+.stock-inner{
+	padding:5px !important;
+	margin-top:2px;
+}
+.main-navigation ul ul{
+	left:auto;
+	right:0px;
+	text-align:right;
+}
+
+.inside-header {
+	text-align:right;
+}
+
+.in-memory a {
+    color: #1e73be !important;;
+}
+
+@media (max-width: 768px) {
+	.in-memory {
+		text-align:right;
+	}
+}

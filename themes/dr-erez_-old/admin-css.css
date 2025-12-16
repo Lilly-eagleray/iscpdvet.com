@@ -1,0 +1,17 @@
+@media only screen and (max-width: 500px) {
+
+	p.search-box{
+		position:relative !important;
+		float:none !important;
+		clear:both;
+	}
+
+}
+
+@media screen and (max-width: 782px){
+    p.search-box {
+        position:relative !important;
+		float:none !important;
+		clear:both;
+    }
+}
