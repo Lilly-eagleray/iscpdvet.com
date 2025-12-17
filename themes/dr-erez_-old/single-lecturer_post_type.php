@@ -10,21 +10,11 @@ if ( have_posts() ) :
   <section class="lecturer-hero">
     <h1 class="lecturer-name"><?php the_title(); ?></h1>
 
-    <?php if ( has_post_thumbnail() ) : ?>
+    <?php /*if ( has_post_thumbnail() ) : ?>
       <div class="lecturer-image">
         <?php the_post_thumbnail('large'); ?>
       </div>
-    <?php endif; ?>
-  </section>
-
-  <section class="lecturer-details">
-
-    <?php if ( get_field('title') ) : ?>
-      <p class="lecturer-title">
-        <?php the_field('title'); ?>
-      </p>
-    <?php endif; ?>
-
+    <?php endif; */?>
   </section>
 
   <section class="lecturer-content">
