@@ -787,3 +787,15 @@ add_action( 'woocommerce_after_main_content', function() {
     echo '</div>';
 
 });
+
+add_filter( 'template_include', 'force_lecturer_custom_template', 99 );
+
+function force_lecturer_custom_template( $template ) {
+    if ( is_singular( 'lecturer_post_type' ) ) {
+        $child_template = get_stylesheet_directory() . '/single-lecturer_post_type.php';
+        if ( file_exists( $child_template ) ) {
+            return $child_template;
+        }
+    }
+    return $template;
+}

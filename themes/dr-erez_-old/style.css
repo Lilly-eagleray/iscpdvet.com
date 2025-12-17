@@ -732,19 +732,22 @@ body.has-sticky-header {
     text-decoration: none;
 }
 
-body.page-template-default .page {
-	max-width: 1200px;
+body.page-template-default .page,
+body.single-lecturer_post_type #page {
+	max-width: 1200px!important;
 	margin: auto;
 	padding: 0 30px;
 }
 
 body.single-product,
-body.page-template-default {
+body.page-template-default,
+body.single-lecturer_post_type {
     background: #729BFF;
 }
 
 body.single-product .entry-content,
-body.page-template-default .inside-article {
+body.page-template-default .inside-article,
+body.single-lecturer_post_type .site-content {
     background: #fff;
     box-shadow: 0px 4px 23.6px 0px #00000017;
     border-radius: 28px;
@@ -753,19 +756,26 @@ body.page-template-default .inside-article {
 	overflow: hidden;
 }
 
-body.page-template-default .inside-article {
+body.page-template-default .inside-article,
+body.single-lecturer_post_type .site-content {
 	padding: 30px!important;
 }
 
 body.single-product .course-title,
 body.page-template-default .entry-title,
-.woocommerce div.product .product_title {
+.woocommerce div.product .product_title,
+body.single-lecturer_post_type .lecturer-name {
     font-family: Heebo;
     font-weight: 900;
     font-size: 32px;
     line-height: 1.3;
 	margin-bottom: 40px;
 	text-align: center;
+}
+
+.lecturer-image {
+    text-align: center;
+    margin-bottom: 30px;
 }
 
 .woocommerce div.product .stock {
@@ -1177,7 +1187,7 @@ label[for="copy_data"]::before {
     margin-left: 20px;
 }
 
-#customer_details input.more_data:last-of-type {
+#customer_details input.more_data:nth-of-type(4) {
     margin-left: 0;
 }
 
@@ -1626,7 +1636,8 @@ nav.woocommerce-MyAccount-navigation ul {
 	}	
 	
 	body.single-product .course-title, body.page-template-default .entry-title,
-	.woocommerce div.product .product_title {	
+	.woocommerce div.product .product_title,
+	body.single-lecturer_post_type .lecturer-name {	
 		font-size: 28px;
 		margin-bottom: 25px;
 	}
