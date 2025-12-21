@@ -68,76 +68,74 @@ function update_order() {
     wp_die();
 }
 
-
-
-
-
 function ultimate_course_add_course_to_user($order_id)
 {
-
-    //getting order object
-    $order = wc_get_order($order_id);
-	$orderstat = $order->get_status();
-if($orderstat != "failed"){
-    $items = $order->get_items();
-	global $course;
-
-
-
-    foreach ($items AS $item_id)
-    {
-		if(is_user_logged_in()){
-
-			$current_user = wp_get_current_user();
-
-			$current_user->add_role( 'cpd_member' );
-
-			$course->setUser($current_user);
-
-			if(get_post_meta($item_id['product_id'],"_course_related")){
-
-				$course_id = get_post_meta($item_id['product_id'],"_course_related")[0];
-
-                //add only membership
-                if( $course_id != '743' ){
-                    continue;
-                }
-
-				$courses = $course->getCoursePerUser($course_id);
-
-				if( count($courses) == 0 ){
-
-					$listid = $course->addCourseToUser($course_id);
-
-					if($listid != 0){
-
-					}
-
-				}
-				else{
-					$date = "";
-					if(get_post_meta($course_id,"_isYearly") ){
-						 $course->delCourseToUserById($course_id,$current_user->ID);
-						 $date = strtotime(date("Y-m-d", strtotime($courses[0]->time)) . " +1 year");
-						 $date = date("Y-m-d",$date);
-					}
-
-					$listid = $course->addCourseToUser($course_id,$date);
-				}
-				add_prod_stac_single($course_id, $current_user->ID );
-
-			}
-		}
+    // מניעת הרצה כפולה על אותה הזמנה
+    if (get_post_meta($order_id, '_course_added_logic_done', true)) {
+        return;
     }
 
-	}
+    // getting order object
+    $order = wc_get_order($order_id);
+    if (!$order) return;
+
+    $orderstat = $order->get_status();
+
+    if($orderstat != "failed"){
+        $items = $order->get_items();
+        global $course;
+
+        // שינוי קריטי: שליפת המשתמש מההזמנה ולא מהסשן של הדפדפן
+        $user_id = $order->get_user_id();
+        $current_user = get_user_by('id', $user_id);
+
+        if ($current_user) { // במקום is_user_logged_in
+
+            foreach ($items AS $item) // ווקומירס מעביר אובייקט פריט
+            {
+                $product_id = $item->get_product_id();
+
+                if(get_post_meta($product_id, "_course_related")){
+
+                    $course_id = get_post_meta($product_id, "_course_related")[0];
+
+                    // add only membership
+                    if( $course_id != '743' ){
+                        continue;
+                    }
+
+                    $current_user->add_role( 'cpd_member' );
+                    $course->setUser($current_user);
+
+                    $courses = $course->getCoursePerUser($course_id);
+
+                    if( count($courses) == 0 ){
+                        $listid = $course->addCourseToUser($course_id);
+                    }
+                    else{
+                        $date = "";
+                        if(get_post_meta($course_id,"_isYearly") ){
+                             $course->delCourseToUserById($course_id, $current_user->ID);
+                             // לוגיקה מקורית שלך לחישוב תאריך
+                             $date = strtotime(date("Y-m-d", strtotime($courses[0]->time)) . " +1 year");
+                             $date = date("Y-m-d",$date);
+                        }
+
+                        $listid = $course->addCourseToUser($course_id,$date);
+                    }
+                    add_prod_stac_single($course_id, $current_user->ID );
+                }
+            }
+            // סימון שההזמנה הזו כבר קיבלה את הקורס
+            update_post_meta($order_id, '_course_added_logic_done', 'yes');
+        }
+    }
 }
 
-add_action('woocommerce_thankyou', 'ultimate_course_add_course_to_user');
-
-
-
-
+// החלפת ההוק ל-payment_complete מבטיחה שזה ירוץ ברגע שטרנזילה מאשרים את העסקה
+add_action('woocommerce_payment_complete', 'ultimate_course_add_course_to_user');
+// ליתר ביטחון, אם הסטטוס משתנה ל-processing (במקרה של הזמנה ידנית או תוסף אחר)
+add_action('woocommerce_order_status_processing', 'ultimate_course_add_course_to_user');
 
 
 function ultimate_course_lock_them_out_page($content) {
