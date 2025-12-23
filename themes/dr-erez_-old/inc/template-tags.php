@@ -540,7 +540,7 @@ function generate_construct_header() {
 			<div class="login-text">
 			<?php global $current_user; wp_get_current_user();
 			if ( is_user_logged_in() ) {
-			 echo '<span class="text-label">' . __("שלום") . " , " . $current_user->display_name . " </span>";
+			 echo '<span class="text-label">' . __("שלום") . " , </span> <span class='mobile-name'>" .$current_user->display_name. " </span>";
 			 echo '<a href="' . wp_logout_url( $_SERVER['REQUEST_URI'] ) . '" class="login-icon">
 				<span class="text-label">לצאת</span>
 				<i class="fas fa-sign-out-alt"></i>

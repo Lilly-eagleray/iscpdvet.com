@@ -1531,6 +1531,14 @@ nav.woocommerce-MyAccount-navigation ul {
 	.login_phonenumber .login-text i {
 		display: block;
 		font-size: 20px;
+		margin-top: 2px;
+	}
+	
+	.login-text {
+		display: flex;
+		gap: 6px;
+		align-items: center;
+		font-size: 15px;
 	}
 	
 	.login_phonenumber {
