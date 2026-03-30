@@ -123,9 +123,9 @@ function check_is_registered( $post_ID, $post, $update ) {
     if ($post->post_type != 'shop_order'){
         return;
     }
-    
+
     $order = new WC_Order( $post_ID );
-    
+
     if($order->get_status() == "completed"){
         $order_data = $order->get_data();
         $order_billing_email = $order_data['billing']['email'];
@@ -135,9 +135,9 @@ function check_is_registered( $post_ID, $post, $update ) {
         foreach ($items AS $item_id)
         {
             $prod_id = $item_id["product_id"];
-            
+
             $user_obj = get_user_by( 'email', $order_billing_email);
-            
+
             if (!$user_obj) {
                 continue;
             }
@@ -179,12 +179,12 @@ add_filter( 'woocommerce_return_to_shop_redirect', 'wc_empty_cart_redirect_url' 
 add_action( 'wp_enqueue_scripts', 'child_theme_enqueue_styles' );
 
 function child_theme_enqueue_scripts() {
-    wp_enqueue_script( 
-        'my-custom-main', 
-        get_stylesheet_directory_uri() . '/js/main.js', 
-        array(), 
-        filemtime( get_stylesheet_directory() . '/js/main.js' ), 
-        true 
+    wp_enqueue_script(
+        'my-custom-main',
+        get_stylesheet_directory_uri() . '/js/main.js',
+        array(),
+        filemtime( get_stylesheet_directory() . '/js/main.js' ),
+        true
     );
 }
 add_action( 'wp_enqueue_scripts', 'child_theme_enqueue_scripts' );
@@ -544,7 +544,7 @@ if($product->get_stock_quantity() < 3){
 $alert_class = "alert-danger";
 }
 ?>
-<p class="stock-inner <?php echo esc_attr( $class ); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i> נותרו עוד <?php echo $product->get_stock_quantity(); ?> מקומות</p>
+<p class="stock-inner <?php echo esc_attr( $class ); ?>"><i class="fa fa-info-circle" aria-hidden="true"></i> נותרו עוד <?php echo $product->get_stock_quantity(); ?></p>
 <?php
 }
 
@@ -754,7 +754,7 @@ if ( file_exists( $lessons_meta_box_file ) ) {
 require_once get_stylesheet_directory() . '/inc/template-tags.php';
 
 function my_custom_footer_copyright_info( $copyright ) {
-    
+
     $custom_output = sprintf( '&copy; %1$s המרכז ללימודי המשך וטרינריים &bull; <small>2025</small> &bull; נבנה על ידי <a href="https://www.xplace.com/il/u/pixelbuilt" target="_blank" rel="noopener noreferrer">PIXELBUILT</a>', '2017' );
 
     return $custom_output;
@@ -778,7 +778,7 @@ add_action( 'woocommerce_after_main_content', function() {
     $term = get_queried_object();
     if ( ! $term ) return;
 
-    $extra_content = get_field( 'extra_content', $term ); 
+    $extra_content = get_field( 'extra_content', $term );
 
     if ( ! $extra_content ) return;
 
