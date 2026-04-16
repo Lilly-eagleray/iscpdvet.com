@@ -118,6 +118,8 @@ public function generate_iframe($order_id) {
         'cred_type'   => 8,
         'maxpay'      => (int)$this->get_option('maxpay', 12),
         'pdesc'       => mb_substr($pdesc, 0, 100, 'UTF-8'),
+        'company'     => $order->get_billing_company(),
+        'myid'        => get_post_meta($order_id, '_vetid', true),
         'contact'     => trim($order->get_billing_first_name() . ' ' . $order->get_billing_last_name()),
         'phone'       => $order->get_billing_phone(),
         'email'       => $order->get_billing_email(),
