@@ -530,17 +530,13 @@ function custom_override_checkout_fields( $fields ) {
      return $fields;
 }
 
-// Add custom checkout validation for billing_hp when order total is 5000 or more
+// Add custom checkout validation for billing_hp when order total is 5850 or more
 add_action( 'woocommerce_checkout_process', 'tranzila_validate_billing_hp_field' );
 function tranzila_validate_billing_hp_field() {
-    if ( function_exists('WC') && is_object( WC()->cart ) && WC()->cart->total >= 5000 ) {
+    if ( function_exists('WC') && is_object( WC()->cart ) && WC()->cart->total >= 5850 ) {
         if ( empty( $_POST['billing_hp'] ) ) {
             wc_add_notice( 'שדה <strong>ח.פ. / ת.ז. לחשבונית</strong> הוא שדה חובה בהזמנות בסכום של 5,000 ש"ח ומעלה (עקב חוק חשבוניות ישראל).', 'error' );
         }
     }
 }
-?>
-
-
-
 ?>
