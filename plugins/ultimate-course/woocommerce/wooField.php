@@ -489,6 +489,23 @@ function woo_custom_order_button_text() {
 add_filter( 'woocommerce_checkout_fields' , 'custom_override_checkout_fields' );
 
 function custom_override_checkout_fields( $fields ) {
+     $is_required = false;
+     if ( function_exists('WC') && is_object( WC()->cart ) ) {
+         if ( WC()->cart->total >= 5000 ) {
+             $is_required = true;
+         }
+     }
+
+     $fields['billing']['billing_hp'] = array(
+         'type'        => 'text',
+         'label'       => 'ח.פ. / ת.ז. לחשבונית',
+         'placeholder' => 'הזן ח.פ. או ת.ז.',
+         'required'    => $is_required,
+         'class'       => array('form-row-wide'),
+         'clear'       => true,
+         'priority'    => 5, // Position at the top of billing details
+     );
+
 	 $fields['order']['order_comments']['label'] = __("Anything important?","ultimate-course");
      $fields['order']['order_comments']['placeholder'] = '';
 	 $fields['billing']['billing_address_1']['label'] = __("Your Address","ultimate-course");
@@ -512,6 +529,17 @@ function custom_override_checkout_fields( $fields ) {
 
      return $fields;
 }
+
+// Add custom checkout validation for billing_hp when order total is 5000 or more
+add_action( 'woocommerce_checkout_process', 'tranzila_validate_billing_hp_field' );
+function tranzila_validate_billing_hp_field() {
+    if ( function_exists('WC') && is_object( WC()->cart ) && WC()->cart->total >= 5000 ) {
+        if ( empty( $_POST['billing_hp'] ) ) {
+            wc_add_notice( 'שדה <strong>ח.פ. / ת.ז. לחשבונית</strong> הוא שדה חובה בהזמנות בסכום של 5,000 ש"ח ומעלה (עקב חוק חשבוניות ישראל).', 'error' );
+        }
+    }
+}
+?>
 
 
 

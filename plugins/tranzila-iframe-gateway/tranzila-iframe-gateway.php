@@ -125,6 +125,7 @@ public function generate_iframe($order_id) {
         'email'       => $order->get_billing_email(),
         'orderid'     => $order_id,
         'lang'        => 'il',
+        'business_id' => get_post_meta($order_id, '_billing_hp', true),
     );
 
     $query      = http_build_query($args, '', '&');
@@ -251,4 +252,7 @@ public function generate_iframe($order_id) {
         });
     }
 }
+
 ?>
+
+
